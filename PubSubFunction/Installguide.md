@@ -31,23 +31,23 @@ Set up a PubSub Topic for error messages (Note the name of the topic -  this wil
 
 <table><tr><td><strong>Variable</strong></td><td><strong>Value</strong></td></tr>
 <tr><td>HEC_URL</td><td>Hostname/IP address for URL for Splunk HEC (Load balancer required for cluster)
-e.g. mysplunkinstance.splunk.com or 113.114.115.192</td><</tr>
-<tr><td>HEC_TOKEN</td><td>HEC Token for the input. Generate on Splunk instance.</td><</tr>
-<tr><td>PROJECTID</td><td>Project ID for where the Retry Topic exists</td><</tr>
-<tr><td>HOST</td><td>Host value that Splunk will assign for the PubSub event. Defaults to GCPFunction</td><</tr>
-<tr><td>SPLUNK_SOURCETYPE</td><td>Sourcetype that will be given to the event (defaults to google:gcp:pubsub:message)</td><</tr>
-<tr><td>SPLUNK_SOURCE</td><td>If set, this will be assigned to the “Source” of the event. If not set, defaults to PubSub topic</td><</tr>
+e.g. mysplunkinstance.splunk.com or 113.114.115.192</td></tr>
+<tr><td>HEC_TOKEN</td><td>HEC Token for the input. Generate on Splunk instance.</td></tr>
+<tr><td>PROJECTID</td><td>Project ID for where the Retry Topic exists</td></tr>
+<tr><td>HOST</td><td>Host value that Splunk will assign for the PubSub event. Defaults to GCPFunction</td></tr>
+<tr><td>SPLUNK_SOURCETYPE</td><td>Sourcetype that will be given to the event (defaults to google:gcp:pubsub:message)</td></tr>
+<tr><td>SPLUNK_SOURCE</td><td>If set, this will be assigned to the “Source” of the event. If not set, defaults to PubSub topic</td></tr>
 <tr><td>INDEX</td><td>If this is set, its value can be set to over-ride the HEC token index. If this is set to LOGNAME then another environment variable with the name of the log needs to be set with an index name e.g. if you want all logs from “cloudaudit.googleapis.com%2Factivity” to be sent to index ActivityIX, you need to create an environment variable with the name “activity” with the value of ActivityIX. 
 Note to use the value after “%2F”, or if the log doesn’t have that, use the value after /logs/ (eg. A logname of projects/projname/logs/OSConfigAgent would have variable set to OSConfigAgent)
 Note that the HEC Token must have set access to the indexes noted here
-(defaults to no value – i.e. HEC token set index name)</td><</tr>
+(defaults to no value – i.e. HEC token set index name)</td></tr>
 <tr><td>logname</td><td>A variable with a log name (ending only) will override the HEC token index for the event. Note that INDEX needs to be set to LOGNAME for this to be used. Use logname after /logs/ or if name has “%2F” in the name, use the logname after “%2F” 
 Examples:
 cloudaudit.googleapis.com%2Factivity -> use activity 
 /logs/OSConfigAgent -> use OSConfigAgent
-(defaults to no value)</td><</tr>
-<tr><td>COMPATIBLE</td><td>Set this to TRUE to maintain compatibility with Add-On. If not TRUE, event payload will be exact copy of PubSub event</td><</tr>
-<tr><td>ERROR_TOPIC</td><td>Name of Topic to send event to on any failure scenario for the function</td><</tr>
+(defaults to no value)</td></tr>
+<tr><td>COMPATIBLE</td><td>Set this to TRUE to maintain compatibility with Add-On. If not TRUE, event payload will be exact copy of PubSub event</td></tr>
+<tr><td>ERROR_TOPIC</td><td>Name of Topic to send event to on any failure scenario for the function</td></tr>
 </table>
 
 
