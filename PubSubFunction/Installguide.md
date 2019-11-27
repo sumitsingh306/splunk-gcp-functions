@@ -31,7 +31,7 @@ Set up a PubSub Topic for error messages (Note the name of the topic -  this wil
 
 
 **Variable	      	Value**
-========================================================================================================================================
+--------------------------
 HEC_URL             Hostname/IP address for URL for Splunk HEC (Load balancer recommended) – e.g. mysplunkinstance.splunk.com
 					113.114.115.192
 					Note, no need for https or /services/collector/event 
