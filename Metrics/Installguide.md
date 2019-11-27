@@ -56,3 +56,12 @@ Defaults to EVENT
 </td></tr>
 <tr><td>RETRY_TOPIC</td><td>Name of Topic to send event/metric to on any failure scenario for the function</td></tr>
 </table>
+
+
+## **Function Flow process**
+
+**Normal Flow:**
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver API)-> HEC
+**Error Flow:** 
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver API)-> PubSub error Topic
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC

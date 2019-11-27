@@ -64,5 +64,12 @@ For example, if your function name is GCP-Pub-Sub, and you wish to collect logs 
 
 **Failure to do this will cause the function to race and max out function execution capacity in your project. (it is essentially logging itself, which then causes more logs to be created, causing a feedback race loop)**
 
+## **Function Flow process**
+
+**Normal Flow:**
+Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> HEC
+**Error Flow:** 
+Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> PubSub Topic (error)
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
 
 
