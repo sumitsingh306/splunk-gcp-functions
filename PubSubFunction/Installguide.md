@@ -27,7 +27,7 @@ Set up a PubSub Topic for error messages (Note the name of the topic -  this wil
 15.	Click Deploy
 16.	You will need to install the PubSubRetry function if you wish to have a recovery for any events that failed to write to Splunk. See install guide for that function.
 
-### Function Environment Variables
+#### Function Environment Variables
 
 
 **Variable	      	Value**
@@ -56,13 +56,13 @@ ERROR_TOPIC			Name of Topic to send event to on any failure scenario for the fun
 
 
 
-# PUB-SUB FUNCTION: IMPORTANT USAGE NOTE
+## PUB-SUB FUNCTION: IMPORTANT USAGE NOTE
 
-As the cloud function executes within GCP’s environment, its own logs are collected in Stacktdriver logs. If your Log Export collects logs from Cloud Functions MAKE SURE YOU ELIMINATE THE FUNCTION NAME FROM THE EXPORT. Logs for this function cannot be collected by itself! 
+As the cloud function executes within GCP’s environment, its own logs are collected in Stacktdriver logs. If your Log Export collects logs from Cloud Functions **MAKE SURE YOU ELIMINATE THE FUNCTION NAME FROM THE EXPORT**. Logs for this function cannot be collected by itself! 
 
 For example, if your function name is GCP-Pub-Sub, and you wish to collect logs from other functions, then the Export Filter needs to include resource.labels.function_name!="GCP-Pub-Sub"
 
-Failure to do this will cause the function to race and max out function execution capacity in your project. (it is essentially logging itself, which then causes more logs to be created, causing a feedback race loop)
+**Failure to do this will cause the function to race and max out function execution capacity in your project. (it is essentially logging itself, which then causes more logs to be created, causing a feedback race loop)**
 
 
 
