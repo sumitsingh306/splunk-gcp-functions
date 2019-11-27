@@ -6,15 +6,15 @@ This library contains GCP Function Templates to read from:
 - Google Cloud Storage
 - Assets
 
-**PubSubFunction**
+**PubSub Function**
 
 This function pulls any event that is posted into PubSub and packages it up into a Splunk event. The event is then sent to the Http Event Collector (HEC). The function is written such that the event format can be sent compatible with Splunk's Add-On for Google Cloud Platform (https://splunkbase.splunk.com/app/3088/).
 If any faiures occur during sending the message to HEC, the event is posted back to a Pub-Sub Topic. A recovery function is provided which is executed via a Cloud Scheduler trigger (PubSub). The recovery function will attempt to clear out the PubSub retry topic and send these events into HEC.
 
-**MetricsFunction**
+**Metrics Function**
 
 This function is triggered by a Cloud Scheduler trigger (via PubSub). The function calls Stackdriver Monitoring APIs to retrieve the metrics (metrics request list, and poll frequency set in environment variable). These metrics are then sent to Splunk HEC. Two formats are supported - one to be compatible with the Add-on for GCP, sending the metrics as events into Splunk, the second is sent as a metric into Splunk's Metrics index.
-As with the PubSub Function, any failed messages are sent into a PubSub topic for retry. A recovery function will attempt to resend periodically.
+As with the PubSub Function, any failed messages are sent into a PubSub topic for retry. A recovery function will attempt to resend periodically. 
 
 **Google Cloud Storage**
 
@@ -26,5 +26,7 @@ Any messages that failed to be sent to HEC are sent into a PubSub topic for retr
 This function is periodically triggered via a Cloud Scheduler push to a PubSub topic. The function calls GCP’s API to retrieve the cloud asset list. The list is written to a GCS bucket. (bucket location is defined in an environment variable).
 Once in the GCS Bucket, the GCS function above can be used to read in the contents of the asset list into Splunk.
 
+**Retry Functions**
 
+These functions (two types) periodically requests any failed events that were sent to a PubSub Topic, and re-tries sending to HEC. There are 2 functions, one for the PubSub function, and another for all other functions. If there is a subsequent failure to send to Splunk, the functions will not acknowledge the pull from PubSub, and therefore will be re-tried at a later attempt.
 
