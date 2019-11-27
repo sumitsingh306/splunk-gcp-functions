@@ -1,4 +1,4 @@
-#GCP Functions Library for Ingesting into Splunk
+# GCP Functions Library for Ingesting into Splunk
 
 This library contains GCP Function Templates to read from:
 - PubSub
