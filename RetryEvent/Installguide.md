@@ -1,6 +1,7 @@
 # GCP Cloud Functions – Installation / Setup Guide
 
 # RetryEvent Function (0.1.5)
+(note that this is only for the PubSub Events, not for GCS or Metrics functions)
 
 ### **Pre-requisites**
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
@@ -23,9 +24,10 @@ Create a Cloud Schedule, triggering the Retry PubSub Topic. Schedule this for ho
 9.	Copy the requirements.txt contents into the requirements.txt tab
 10.	Click on “Show variables like environment, networking, timeouts and more” to open up more options
 11.	Select the region where you want the function to run
-12.	Click on the + Add variable to open up the Environment variables entry
-13.	Add the Environment variables and values described in the table below
-14.	Click Deploy
+12.	Increase the timeout for this function to 120
+13.	Click on the + Add variable to open up the Environment variables entry
+14.	Add the Environment variables and values described in the table below
+15.	Click Deploy
 
 ### **Function Environment Variables**
 
