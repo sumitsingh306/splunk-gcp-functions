@@ -68,6 +68,7 @@ For example, if your function name is GCP-Pub-Sub, and you wish to collect logs 
 
 **Normal Flow:**
 Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> HEC
+
 **Error Flow:** 
 Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> PubSub Topic (error)
 Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
