@@ -32,7 +32,7 @@ Set up a PubSub Topic for error messages (Note the name of the topic -  this wil
 
 **Variable	      	Value**
 ========================================================================================================================================
-HEC_URL				Hostname/IP address for URL for Splunk HEC (Load balancer recommended) – e.g. mysplunkinstance.splunk.com
+HEC_URL             Hostname/IP address for URL for Splunk HEC (Load balancer recommended) – e.g. mysplunkinstance.splunk.com
 					113.114.115.192
 					Note, no need for https or /services/collector/event 
 HEC_TOKEN			HEC Token for the input. Generate on Splunk instance.
@@ -44,7 +44,7 @@ INDEX				If this is set, its value can be set to over-ride the HEC token index. 
 					environment variable with the name of the log needs to be set with an index name e.g. if you want all logs from “cloudaudit.googleapis.com%2Factivity” to be sent to index ActivityIX, you need to create an environment variable with the name “activity” with the value of ActivityIX. Note to use the value after “%2F”, or if the log doesn’t have that, use the value after /logs/ (eg. A logname of projects/projname/logs/OSConfigAgent would have variable set to OSConfigAgent)
 					Note that the HEC Token must have set access to the indexes noted here
 					(defaults to no value – i.e. HEC token set index name)
-<logname>			A variable with a log name (ending only) will override the HEC token index for the event. Note that INDEX needs to be 
+_logname_			A variable with a log name (ending only) will override the HEC token index for the event. Note that INDEX needs to be 
 					set to LOGNAME for this to be used.
 					Use logname after /logs/ or if name has “%2F” in the name, use the logname after “%2F” 
 					Examples:
