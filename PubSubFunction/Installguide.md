@@ -29,8 +29,8 @@ Set up a PubSub Topic for error messages (Note the name of the topic -  this wil
 
 #### Function Environment Variables
 
-
-**Variable >Value**
+<pre>
+Variable Value
 --------------------------
 HEC_URL             Hostname/IP address for URL for Splunk HEC (Load balancer recommended) – e.g. mysplunkinstance.splunk.com
 					113.114.115.192
@@ -53,7 +53,7 @@ _logname_			A variable with a log name (ending only) will override the HEC token
 					(defaults to no value)
 COMPATIBLE			Set this to TRUE to maintain compatibility with Add-On. If not TRUE, event payload will be exact copy of PubSub event
 ERROR_TOPIC			Name of Topic to send event to on any failure scenario for the function
-
+</pre>
 
 
 ## PUB-SUB FUNCTION: IMPORTANT USAGE NOTE
