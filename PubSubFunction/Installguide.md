@@ -9,6 +9,10 @@ Install GCP Add-On https://splunkbase.splunk.com/app/3088/ (uses the same source
 Set up Stackdriver logs; create an export(s) and subscription to a PubSub Topic (see important note below)
 Set up a PubSub Topic for error messages (Note the name of the topic -  this will be used in the Environment variables later)
 
+### **Function Dependencies:**
+PubSub Function requires the RetryEvent Function. Install and set up the RetryEvent Function first
+
+
 ### **Setup**
 1.	Create a new Cloud Function
 2.	Name your function – note the name – see important note below on the log export
