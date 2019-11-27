@@ -62,6 +62,7 @@ Defaults to EVENT
 
 **Normal Flow:**
 Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver API)-> HEC
+
 **Error Flow:** 
 Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver API)-> PubSub error Topic
 Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
