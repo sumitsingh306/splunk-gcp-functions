@@ -29,7 +29,11 @@ Set up a PubSub Topic for error messages (Note the name of the topic -  this wil
 
 #### Function Environment Variables
 
-<table><tr>Variable<td>Value</td></tr></table>
+<table><tr><td>Variable</td><td>Value</td><</tr>
+<tr><td>HEC_URL</td><td>Hostname/IP address for URL for Splunk HEC (Load balancer required for cluster)
+e.g. mysplunkinstance.splunk.com or 113.114.115.192</td><</tr>
+
+</table>
 
 <pre>
 Variable 			Value
