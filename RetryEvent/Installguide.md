@@ -5,7 +5,7 @@
 ### **Pre-requisites**
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
 Install GCP Add-On https://splunkbase.splunk.com/app/3088/ (uses the same sourcetypes defined in the add-on)
-Set up a PubSub Topic for error messages from an event based functions (PubSub Function, Metrics Events Function)  Note the name of the topic -  this will be used for Environment variables for the functions.
+Set up a PubSub Topic for error messages from the PubSub based functions.  Note the name of the topic -  this will be used for Environment variables for the functions.
 Set up Stackdriver log subscription for the PubSub error Topic
 Create a Retry Trigger PubSub Topic (note that this topic is only going to be used as a trigger, with no events being sent there)
 Create a Cloud Schedule, triggering the Retry PubSub Topic. Schedule this for how frequent you wish to “flush” out any events that failed to send to Splunk (e.g. 15mins)

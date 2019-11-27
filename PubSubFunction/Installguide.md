@@ -5,6 +5,7 @@
 ### **Pre-requisites**
 
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
+HEC token/input MUST allow access to all indexes noted in the environment variables if the default token index is being over-ridden
 Install GCP Add-On https://splunkbase.splunk.com/app/3088/ (uses the same sourcetypes defined in the add-on)
 Set up Stackdriver logs; create an export(s) and subscription to a PubSub Topic (see important note below)
 Set up a PubSub Topic for error messages (Note the name of the topic -  this will be used in the Environment variables later)
