@@ -18,7 +18,7 @@ Set up a PubSub Topic for error messages (Note the name of the topic -  this wil
 6.	Select Inline editor as source
 7.	Select the Runtime as Python 3.7
 8.	Copy the function code into the main.py
-9.	Copy the requirements into the requirements.txt tab
+9.	Copy the content of requirements.txt into the requirements.txt tab
 10.	Click on “Show variables like environment, networking, timeouts and more” to open up more options
 11.	Select the region where you want the function to run
 12.	Click on the + Add variable to open up the Environment variables entry
