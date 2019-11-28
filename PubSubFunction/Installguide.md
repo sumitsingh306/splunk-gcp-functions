@@ -2,11 +2,21 @@
 
 ## PubSub Function (version 0.1.6)
 
+## **Function Flow process**
+
+**Normal Flow:**
+Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> HEC
+
+**Error Flow:** 
+Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> PubSub Topic (error)
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
+
 ### **Pre-requisites**
 
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
 HEC token/input MUST allow access to all indexes noted in the environment variables if the default token index is being over-ridden
 Install GCP Add-On https://splunkbase.splunk.com/app/3088/ (uses the same sourcetypes defined in the add-on)
+Enabled Cloud Functions API
 Set up Stackdriver logs; create an export(s) and subscription to a PubSub Topic (see important note below)
 Set up a PubSub Topic for error messages (Note the name of the topic -  this will be used in the Environment variables later)
 
@@ -52,10 +62,21 @@ Examples:
 cloudaudit.googleapis.com%2Factivity -> use activity 
 /logs/OSConfigAgent -> use OSConfigAgent
 (defaults to no value)</td></tr>
-<tr><td>COMPATIBLE</td><td>Set this to TRUE to maintain compatibility with Add-On. If not TRUE, event payload will be exact copy of PubSub event</td></tr>
+<tr><td>COMPATIBLE</td><td>Set this to TRUE to maintain compatibility with Add-On. If not TRUE, event payload will be exact copy of PubSub event. Default is TRUE</td></tr>
 <tr><td>ERROR_TOPIC</td><td>Name of Topic to send event to on any failure scenario for the function</td></tr>
 </table>
 
+
+## Install with gcloud CLI
+
+git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
+cd splunk-gcp-functions/PubSubFunction
+
+gcloud functions deploy PubSubFunction --runtime python37 --trigger-topic=**TRIGGER_TOPIC** --set-env-vars=[HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**', ERROR_TOPIC='**Error_Topic**']
+
+** *Update the bold values with your own settings* **
+
+(The command above uses the basic list of environment variables)
 
 ## PUB-SUB FUNCTION: IMPORTANT USAGE NOTE
 
@@ -65,13 +86,6 @@ For example, if your function name is GCP-Pub-Sub, and you wish to collect logs 
 
 **Failure to do this will cause the function to race and max out function execution capacity in your project. (it is essentially logging itself, which then causes more logs to be created, causing a feedback race loop)**
 
-## **Function Flow process**
 
-**Normal Flow:**
-Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> HEC
-
-**Error Flow:** 
-Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> PubSub Topic (error)
-Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
 
 
