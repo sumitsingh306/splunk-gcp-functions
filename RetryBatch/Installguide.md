@@ -15,7 +15,7 @@ Create a Cloud Schedule, triggering the Retry PubSub Topic. Schedule this for ho
 RetryBatch Function is used by Metrics and GCS Functions. It has no dependencies on other functions.
 One Function can be used for similar inputs that will go into the same index/HEC tokens, but note that one function will only be able to be used for one type of function source (i.e. do not use a Metrics retry with a GCS Function retry)
 
-## Setup
+## Manual Setup
 
 1.	Create a new Cloud Function
 2.	Name your function

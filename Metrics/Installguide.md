@@ -15,7 +15,7 @@ Create a Cloud Schedule, triggering the Retry PubSub Topic. Schedule this for ho
 
 Metrics Function requires the RetryBatch Function 
 
-## Setup
+## Manual Setup
 
 1.	Create a new Cloud Function
 2.	Name your function
