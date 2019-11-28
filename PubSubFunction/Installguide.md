@@ -14,7 +14,7 @@ Set up a PubSub Topic for error messages (Note the name of the topic -  this wil
 PubSub Function requires the RetryEvent Function. Install and set up the RetryEvent Function first
 
 
-### **Setup**
+### **Manual Setup**
 1.	Create a new Cloud Function
 2.	Name your function – note the name – see important note below on the log export
 3.	Set the Trigger to be Cloud Pub Sub 
@@ -44,7 +44,8 @@ e.g. mysplunkinstance.splunk.com or 113.114.115.192</td></tr>
 <tr><td>SPLUNK_SOURCE</td><td>If set, this will be assigned to the “Source” of the event. If not set, defaults to PubSub topic</td></tr>
 <tr><td>INDEX</td><td>If this is set, its value can be set to over-ride the HEC token index. If this is set to LOGNAME then another environment variable with the name of the log needs to be set with an index name e.g. if you want all logs from “cloudaudit.googleapis.com%2Factivity” to be sent to index ActivityIX, you need to create an environment variable with the name “activity” with the value of ActivityIX. 
 Note to use the value after “%2F”, or if the log doesn’t have that, use the value after /logs/ (eg. A logname of projects/projname/logs/OSConfigAgent would have variable set to OSConfigAgent)
-Note that the HEC Token must have set access to the indexes noted here
+Notes:HEC Token must have set access to the indexes noted here
+Wildcard values are not accepted
 (defaults to no value – i.e. HEC token set index name)</td></tr>
 <tr><td>logname</td><td>A variable with a log name (ending only) will override the HEC token index for the event. Note that INDEX needs to be set to LOGNAME for this to be used. Use logname after /logs/ or if name has “%2F” in the name, use the logname after “%2F” 
 Examples:
