@@ -63,7 +63,7 @@ Defaults to FALSE</td></tr>
 
 git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
-cd splunk-gcp-functions/GCSFunction
+cd splunk-gcp-functions/GCS
 
 gcloud functions deploy **myGCSFunction** --runtime python37 --trigger-bucket=**TRIGGER_BUCKET** --entry-point=hello_gcs --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',RETRY_TOPIC='**Retry_Topic**'
 
