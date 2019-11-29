@@ -45,6 +45,21 @@ Ideally this should be the same as the token used for the function that is using
 <tr><td>EVENT_TYPE</td><td>This sets the type of events that are being collected for retry. Values should be set as : 
 METRIC : use this for Metrics going into Metrics index
 EVENT : use this for Metrics going into Event index
-RAW : use this for GCS Function re-try.
+RAW : use this for GCS Function re-try. 
+Defaults to RAW
 </td></tr>
 </table>
+
+
+## Install with gcloud CLI
+
+git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
+
+cd splunk-gcp-functions/RetryBatch
+
+gcloud functions deploy **myRetryBatchFunction** --runtime python37 --trigger-topic=**RETRY_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',SUBSCRIPTION='**Retry_PubSub_Subscription**',EVENT_TYPE='**RETRY_EVENT_TYPE**'
+
+** *Update the bold values with your own settings* **
+
+
+

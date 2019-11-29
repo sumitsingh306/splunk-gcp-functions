@@ -2,6 +2,16 @@
 
 ## Metrics Function (version 0.5.8)
 
+## **Function Flow process**
+
+**Normal Flow:**
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver API)-> HEC
+
+**Error Flow:** 
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver API)-> PubSub error Topic
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
+
+
 ### Pre-requisites – 
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
 HEC token/input MUST allow access to an appropriate index – if the function is creating event metrics, an event index is needed, or if the function is to send to metrics index, the token must be associated with a metrics index.
@@ -58,11 +68,15 @@ Defaults to EVENT
 </table>
 
 
-## **Function Flow process**
+## Install with gcloud CLI
 
-**Normal Flow:**
-Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver API)-> HEC
+git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
-**Error Flow:** 
-Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver API)-> PubSub error Topic
-Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
+cd splunk-gcp-functions/Metrics
+
+gcloud functions deploy **myMetricsFunction** --runtime python37 --trigger-topic=**METRICS_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',METRICS_LIST='[**METRICS_LIST_COMMA_SEPERATED**]',TIME_INTERVAL='**INTERVAL_IN_MINS**',RETRY_TOPIC='**Retry_Topic**'
+
+** *Update the bold values with your own settings* **
+(The command above uses the basic list of environment variables, using defaults)
+
+

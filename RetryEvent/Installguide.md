@@ -39,3 +39,14 @@ Ideally this should be the same as the token used for the function that is using
 <tr><td>PROJECTID</td><td>Project ID for where the Retry Topic exists</td></tr>
 <tr><td>SUBSCRIPTION</td><td>Name of the subscription that pulls from the Retry/Error PubSub Topic.</td></tr>
 </table>
+
+
+## Install with gcloud CLI
+
+git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
+
+cd splunk-gcp-functions/RetryEvent
+
+gcloud functions deploy **myRetryEventFunction** --runtime python37 --trigger-topic=**RETRY_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',SUBSCRIPTION='**Retry_PubSub_Subscription**'
+
+** *Update the bold values with your own settings* **

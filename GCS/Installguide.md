@@ -1,10 +1,22 @@
 # GCS Function (Version 0.1.1)
 
+
+## **Function Flow process**
+
+**Normal Flow:**
+GCS Object -> GCP Function -> HEC
+
+**Error Flow:** 
+GCS Object -> GCP Function -> PubSub error Topic
+
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
+
+
 ### Pre-requisites – 
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
 HEC token/input MUST allow access to an index and specify a sourcetype for the log type being ingested. Note that all objects in the GCS bucket will be assigned both sourcetype and index per the token.
 Splunk: sourcetype (event break/time) must be set on the receiving indexers. (Note – you will need to use the event breaker regex for this function setup)
-Set up a PubSub Topic for error messages. Note the name of the topic -  this will be used in the Environment variables later. 
+Set up a PubSub Topic for error messages (RETRY_TOPIC). Note the name of the topic -  this will be used in the Environment variables later. 
 The Batch recovery function must be used for this function (not event), set with EVENT_TYPE as RAW – note also that the PubSub error topic needs to be ONLY for errors from functions with the same sourcetype/index HEC token; 
 e.g. if the logs in bucket A has sourcetype B and the destination is a HEC destination C, and error PubSub Topic of D. The recovery function must use the same destination HEC destination C. If Bucket X also has the same sourcetype B, then it can also use the same PubSub error topic and recovery function. However, if another bucket Y has a sourcetype Z (or needs to go into a different index), it will need a separate error PubSub Topic and Recovery function.
 
@@ -47,12 +59,16 @@ Defaults to FALSE</td></tr>
 </table>
 
 
+## Install with gcloud CLI
+
+git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
+
+cd splunk-gcp-functions/GCSFunction
+
+gcloud functions deploy **myGCSFunction** --runtime python37 --trigger-bucket=**TRIGGER_BUCKET** --entry-point=hello_gcs --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',RETRY_TOPIC='**Retry_Topic**'
+
+** *Update the bold values with your own settings* **
+
+(The command above uses the basic list of environment variables, with newline breaker)
 
 
-**Normal Flow:**
-GCS Object -> GCP Function -> HEC
-
-**Error Flow:** 
-GCS Object -> GCP Function -> PubSub error Topic
-
-Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC

@@ -63,7 +63,7 @@ cloudaudit.googleapis.com%2Factivity -> use activity
 /logs/OSConfigAgent -> use OSConfigAgent
 (defaults to no value)</td></tr>
 <tr><td>COMPATIBLE</td><td>Set this to TRUE to maintain compatibility with Add-On. If not TRUE, event payload will be exact copy of PubSub event. Default is TRUE</td></tr>
-<tr><td>ERROR_TOPIC</td><td>Name of Topic to send event to on any failure scenario for the function</td></tr>
+<tr><td>RETRY_TOPIC</td><td>Name of Topic to send event to on any failure scenario for the function</td></tr>
 </table>
 
 
@@ -73,7 +73,7 @@ git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
 cd splunk-gcp-functions/PubSubFunction
 
-gcloud functions deploy **myPubSubFunction** --runtime python37 --source=GCPPubSubFunct0.1.7.py --trigger-topic=**TRIGGER_TOPIC** --set-env-vars=[HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**', ERROR_TOPIC='**Error_Topic**']
+gcloud functions deploy **myPubSubFunction** --runtime python37 --trigger-topic=**TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',RETRY_TOPIC='**Retry_Topic**'
 
 ** *Update the bold values with your own settings* **
 
