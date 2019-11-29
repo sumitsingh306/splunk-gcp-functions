@@ -37,7 +37,7 @@ PubSub Function requires the RetryBatch Function
 <tr><td>HEC_URL</td><td>Hostname/IP address for URL for Splunk HEC (Load balancer required for cluster)
 e.g. mysplunkinstance.splunk.com or 113.114.115.192</td></tr>
 <tr><td>HEC_TOKEN</td><td>HEC Token for the input. Generate on Splunk instance.
-(make not of HEC token requirements above)</td></tr>
+(make note of HEC token requirements above)</td></tr>
 <tr><td>LINE_BREAKER</td><td>Enter the regex for the line breaking for the events in the bucket objects. 
 Defaults to \n (newline)</td></tr>
 <tr><td>BEFORE</td><td>Set this to TRUE if you want to break BEFORE the line breaker, or FALSE if you want to break After the line breaker.
@@ -54,4 +54,5 @@ GCS Object -> GCP Function -> HEC
 
 **Error Flow:** 
 GCS Object -> GCP Function -> PubSub error Topic
+
 Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
