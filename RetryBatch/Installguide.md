@@ -42,7 +42,7 @@ e.g. mysplunkinstance.splunk.com or 113.114.115.192</td></tr>
 Ideally this should be the same as the token used for the function that is using this as a retry</td></tr>
 <tr><td>PROJECTID</td><td>Project ID for where the Retry Topic exists</td></tr>
 <tr><td>SUBSCRIPTION</td><td>Name of the subscription that pulls from the Retry/Error PubSub Topic.</td></tr>
-<tr><td>INDEX_TYPE</td><td>This sets the desination index type that will be used on HEC. Values should be set as : 
+<tr><td>EVENT_TYPE</td><td>This sets the type of events that are being collected for retry. Values should be set as : 
 METRIC : use this for Metrics going into Metrics index
 EVENT : use this for Metrics going into Event index
 RAW : use this for GCS Function re-try.

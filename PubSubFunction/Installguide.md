@@ -70,9 +70,10 @@ cloudaudit.googleapis.com%2Factivity -> use activity
 ## Install with gcloud CLI
 
 git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
+
 cd splunk-gcp-functions/PubSubFunction
 
-gcloud functions deploy PubSubFunction --runtime python37 --trigger-topic=**TRIGGER_TOPIC** --set-env-vars=[HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**', ERROR_TOPIC='**Error_Topic**']
+gcloud functions deploy **myPubSubFunction** --runtime python37 --source=GCPPubSubFunct0.1.7.py --trigger-topic=**TRIGGER_TOPIC** --set-env-vars=[HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**', ERROR_TOPIC='**Error_Topic**']
 
 ** *Update the bold values with your own settings* **
 
