@@ -1,6 +1,7 @@
 # GCP Cloud Functions – Installation / Setup Guide
 
-## Metrics Function (version 0.5.8)
+## Metrics Function 
+(version 0.5.8)
 
 ## **Function Flow process**
 
@@ -8,8 +9,8 @@
 Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver API)-> HEC
 
 **Error Flow:** 
-Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver API)-> PubSub error Topic
-Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver API)-> PubSub Retry Topic
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub Retry Topic)-> HEC
 
 
 ### Pre-requisites – 

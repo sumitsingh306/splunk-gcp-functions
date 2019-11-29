@@ -1,4 +1,5 @@
-# GCS Function (Version 0.1.1)
+# GCS Function 
+(Version 0.1.1)
 
 
 ## **Function Flow process**
@@ -7,9 +8,9 @@
 GCS Object -> GCP Function -> HEC
 
 **Error Flow:** 
-GCS Object -> GCP Function -> PubSub error Topic
+GCS Object -> GCP Function -> PubSub Retry Topic
 
-Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub Retry Topic)-> HEC
 
 
 ### Pre-requisites – 

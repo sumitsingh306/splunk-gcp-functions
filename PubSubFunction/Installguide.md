@@ -1,6 +1,7 @@
 # GCP Cloud Functions – Installation / Setup Guide
 
-## PubSub Function (version 0.1.6)
+## PubSub Function 
+(version 0.1.6)
 
 ## **Function Flow process**
 
@@ -8,8 +9,8 @@
 Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> HEC
 
 **Error Flow:** 
-Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> PubSub Topic (error)
-Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub error Topic)-> HEC
+Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> PubSub Topic (error:RetryTopic)
+Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub Retry Topic)-> HEC
 
 ### **Pre-requisites**
 

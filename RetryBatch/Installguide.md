@@ -1,6 +1,7 @@
 # GCP Cloud Functions – Installation / Setup Guide
 
-## **RetryBatch (Version 0.1.0)**
+## RetryBatch 
+(Version 0.1.0)
 
 ## **Pre-requisites –**
 HEC set-up on a Splunk instance (load balancer needed for a cluster)

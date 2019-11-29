@@ -1,7 +1,8 @@
 # GCP Cloud Functions – Installation / Setup Guide
 
-# RetryEvent Function (0.1.5)
-(note that this is only for the PubSub Events, not for GCS or Metrics functions)
+# RetryEvent Function 
+(0.1.5)
+_(note that this is only for the Retry for PubSub Function Events, not for GCS or Metrics functions)_
 
 ### **Pre-requisites**
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
