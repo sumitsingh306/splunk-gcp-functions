@@ -44,6 +44,8 @@ Ideally this should be the same as the token used for the function that is using
 
 ## Install with gcloud CLI
 
+(run in bash or the Cloud Shell)
+
 git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
 cd splunk-gcp-functions/RetryEvent

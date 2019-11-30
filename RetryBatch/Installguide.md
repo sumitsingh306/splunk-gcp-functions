@@ -54,6 +54,8 @@ Defaults to RAW
 
 ## Install with gcloud CLI
 
+(run in bash or the Cloud Shell)
+
 git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
 cd splunk-gcp-functions/RetryBatch
