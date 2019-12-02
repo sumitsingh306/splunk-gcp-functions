@@ -1,6 +1,31 @@
-# Example Configuration build
+# Example Configuration builds
 
-The following script can be executed in a GCP CLI to build a full sample configuration using all of the functions in this library. The following configuration is created:
+The files here contain scripts can be executed in a GCP CLI to build a full sample configurations using all of the functions in this library. The following configurations are created:
+(Note that there are some common sections for these examples, which do not need to be re-run if one of the other examples has been created. This is noted in the scripts)
+
+## Example 1: PubSub 
+
+This example will create 2 example Log Export Sinks, 2 PubSub Topics and use the PubSub Function with a Retry Function. A Cloud Schedule is also created to trigger the Retry Function (via PubSub Topic). Note that this Schedule and Topic is common between all of examples and doesn't need to be repeated if you build more than one example.
+
+## Example 2a: Metrics Collection (Event Index)
+
+This example will create a Cloud Schedule which triggers the Metrics Function (via a PubSub Topic). The function will send the metrics into Splunk HEC as an Event format (into an Event index). The script will also create a retry PubSub Topic, and set up a Function to retry any failed messages to HEC. 
+If you have already created any other examples, the Cloud Schedule and PubSub Trigger topic doesn't need to be re-created.
+
+## Example 2b: Metrics Collection (Metrics Index)
+
+This example is a clone of example 2a, but this function will send the metrics into Splunk's Metrics Index. It creates a Cloud Schedule which triggers the Metrics Function (via a PubSub Topic). The script will also create a retry PubSub Topic, and set up a Function to retry any failed messages to HEC.
+Note that in practice, only one Cloud Schedule would be needed for metrics unless there is a need to have different schedules/intervals. If you want to run both examples, the section to create the Cloud Schedule for Metrics and its trigger PubSub Topic can be ignored. In the same way, if you have already created any other examples, the Cloud Schedule and PubSub Trigger topic doesn't need to be re-created.
+
+
+## Example 3: GCS
+
+This example creates a Function that is trigged by an object being created in GCS. The script also creates a Retry Topic for any failed messages to Splunk HEC. A Retry Function is created to send any failed messages. It will also create a Cloud Schedule and PubSub Trigger - if you have already created any other examples, these don't need to be re-created.
+
+
+## Example 4: Assets
+
+The example creates a function to collect asset information periodically, writing this into a GCS Bucket. The function is triggered by a PubSub Topic (called via Cloud Schedule). The example also builds a GCS Function as per Exanmple 3 to collect this asset data and post to Splunk.
 
 
 #### Log export Sinks:
