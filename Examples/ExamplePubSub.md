@@ -38,10 +38,10 @@ gcloud pubsub topics create ExampleEventsRetryTopic
 
 gcloud pubsub subscriptions create --topic ExampleEventsRetryTopic ExampleEventsRetryTopic-sub
 
-gcloud logging sinks create ExampleSinkForFunctions pubsub.googleapis.com/projects/**MY-PROJECT**/topics/ExamplePubSubLogsTopic \
+gcloud logging sinks create ExampleSinkForFunctions pubsub.googleapis.com/projects/<strong>MY-PROJECT</strong>/topics/ExamplePubSubLogsTopic \
      --log-filter="resource.labels.function_name!=ExamplePubSub"
 
-gcloud logging sinks create ExampleSinkNoFunctions pubsub.googleapis.com/projects/**MY-PROJECT**/topics/ExamplePubSubLogsTopic \
+gcloud logging sinks create ExampleSinkNoFunctions pubsub.googleapis.com/projects/<strong>MY-PROJECT</strong>/topics/ExamplePubSubLogsTopic \
      --log-filter="protoPayload.serviceName=container.googleapis.com"
 
 gcloud pubsub topics add-iam-policy-binding ExamplePubSubLogsTopic \
