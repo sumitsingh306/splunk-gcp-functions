@@ -38,27 +38,36 @@ gcloud pubsub topics create ExampleEventsRetryTopic
 
 gcloud pubsub subscriptions create --topic ExampleEventsRetryTopic ExampleEventsRetryTopic-sub
 
-gcloud logging sinks create ExampleSinkForFunctions pubsub.googleapis.com/projects/<strong>MY-PROJECT</strong>/topics/ExamplePubSubLogsTopic \
-     --log-filter="resource.labels.function_name!=ExamplePubSub"
+gcloud logging sinks create ExampleSinkForFunctions \
+  pubsub.googleapis.com/projects/<strong>MY-PROJECT</strong>/topics/ExamplePubSubLogsTopic \
+  --log-filter="resource.labels.function_name!=ExamplePubSub"
 
-gcloud logging sinks create ExampleSinkNoFunctions pubsub.googleapis.com/projects/<strong>MY-PROJECT</strong>/topics/ExamplePubSubLogsTopic \
-     --log-filter="protoPayload.serviceName=container.googleapis.com"
+gcloud logging sinks create ExampleSinkNoFunctions \
+  pubsub.googleapis.com/projects/<strong>MY-PROJECT</strong>/topics/ExamplePubSubLogsTopic \
+  --log-filter="protoPayload.serviceName=container.googleapis.com"
 
 gcloud pubsub topics add-iam-policy-binding ExamplePubSubLogsTopic \
-     --member serviceAccount:<strong>LOG-SINK-SERVICE-ACCOUNT</strong> --role roles/pubsub.publisher
+  --member serviceAccount:<strong>LOG-SINK-SERVICE-ACCOUNT</strong> --role roles/pubsub.publisher
 
 git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
 cd splunk-gcp-functions/PubSubFunction
 
-gcloud functions deploy ExamplePubSubFunction --runtime python37 --trigger-topic=ExamplePubSubLogsTopic --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',RETRY_TOPIC='ExamplePubSubRetryTopic'
+gcloud functions deploy ExamplePubSubFunction --runtime python37 \
+  --trigger-topic=ExamplePubSubLogsTopic --entry-point=hello_pubsub \
+  --allow-unauthenticated \
+  --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',RETRY_TOPIC='ExamplePubSubRetryTopic'
 
 cd ../RetryEvent
 
-gcloud functions deploy ExamplePubSubRetry --runtime python37 --trigger-topic=ExampleRetryTrigger --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',SUBSCRIPTION='ExamplePubSubRetryTopic-sub'
+gcloud functions deploy ExamplePubSubRetry --runtime python37 \
+ --trigger-topic=ExampleRetryTrigger --entry-point=hello_pubsub --allow-unauthenticated \
+ --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',SUBSCRIPTION='ExamplePubSubRetryTopic-sub'
 
-# This section only needs to be done once for all examples
+# This section only needs to be done once for all examples. All examples will use the same Retry Schedule/Topic
 
 gcloud pubsub topics create ExampleRetryTrigger
+
+gcloud scheduler jobs create pubsub ExampleRetrySchedule --schedule "*/10 * * * *" --topic ExampleRetryTrigger --message-body "Retry"
 
 </pre>
