@@ -49,9 +49,12 @@ gcloud logging sinks create ExampleSinkNoFunctions \
 gcloud pubsub topics add-iam-policy-binding ExamplePubSubLogsTopic \
   --member serviceAccount:<strong>LOG-SINK-SERVICE-ACCOUNT</strong> --role roles/pubsub.publisher
 
+#the clone command only needs to be done once for all of the examples
 git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
 cd splunk-gcp-functions/PubSubFunction
+
+#create function
 
 gcloud functions deploy ExamplePubSubFunction --runtime python37 \
   --trigger-topic=ExamplePubSubLogsTopic --entry-point=hello_pubsub \
@@ -60,6 +63,7 @@ gcloud functions deploy ExamplePubSubFunction --runtime python37 \
 
 cd ../RetryEvent
 
+#create Retry function
 gcloud functions deploy ExamplePubSubRetry --runtime python37 \
  --trigger-topic=ExampleRetryTrigger --entry-point=hello_pubsub --allow-unauthenticated \
  --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',SUBSCRIPTION='ExamplePubSubRetryTopic-sub'
