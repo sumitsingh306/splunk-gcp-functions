@@ -1,6 +1,6 @@
 # Example 1: PubSub
 
-This example will create 2 example Log Export Sinks, 2 PubSub Topics and use the PubSub Function with a Retry Function. A Cloud Schedule is also created to trigger the Retry Function (via PubSub Topic). Note that this Schedule and Topic is common between all of examples and doesn't need to be repeated if you build more than one example.
+This example will create 2 example Log Export Sinks, 3 PubSub Topics and use the PubSub Function with a Retry Function. A Cloud Schedule is also created to trigger the Retry Function (via PubSub Topic). Note that the Schedule and Retry Trigger and Retry Topic is common between all of examples and doesn't need to be repeated if you build more than one example.
 
 #### Log export Sinks Created:
 
@@ -15,28 +15,27 @@ This example will create 2 example Log Export Sinks, 2 PubSub Topics and use the
 
 **ExamplePubSubLogsTopic** : This topic will collect logs from the export sinks
 
-**ExamplePubSubRetryTopic** : This topic will collect failed writes from ExamplePubSub to HEC
+**ExamplePubSubRetryTopic** : This topic can be common between all functions. This topic will collect failed writes from ExamplePubSub to HEC
 
+**ExampleRetryTrigger** : This topic can be common between all functions and triggers retries based on Cloud Schedule
 
 #### GCP Functions Created:
 
 **ExamplePubSub** : PubSub Function pulling from ExamplePubSubLogsTopic 
 
-**ExamplePubSubRetry** : Retry Function to pull any failed messages from ExamplePubSub
+**ExampleRetry** : Retry Function to pull any failed messages from ExamplePubSub (can be re-used across all examples)
 
 
 ## CLI Example Scripts
 (run in bash or the Cloud Shell)
 
 **Note that you will need to change values in bold in the scripts below to identify your project id, Log-Sink Service Account, HEC URL and HEC Token**
+
+
 <pre>
-gcloud pubsub topics create ExamplePubSubRetryTopic
 
-gcloud pubsub subscriptions create --topic ExamplePubSubRetryTopic ExamplePubSubRetryTopic-sub
-
-gcloud pubsub topics create ExampleEventsRetryTopic
-
-gcloud pubsub subscriptions create --topic ExampleEventsRetryTopic ExampleEventsRetryTopic-sub
+#this section is specific for this example only
+#create log-sinks...
 
 gcloud logging sinks create ExampleSinkForFunctions \
   pubsub.googleapis.com/projects/<strong>MY-PROJECT</strong>/topics/ExamplePubSubLogsTopic \
@@ -61,14 +60,20 @@ gcloud functions deploy ExamplePubSubFunction --runtime python37 \
   --allow-unauthenticated \
   --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',RETRY_TOPIC='ExamplePubSubRetryTopic'
 
+
+#This is a common section for all examples
+#Doesn't need to be repeated for all unless you wish to have separate PubSub Topics for retrying different events.
+
+gcloud pubsub topics create ExamplePubSubRetryTopic
+
+gcloud pubsub subscriptions create --topic ExamplePubSubRetryTopic ExamplePubSubRetryTopic-sub
 cd ../RetryEvent
 
 #create Retry function
+
 gcloud functions deploy ExamplePubSubRetry --runtime python37 \
  --trigger-topic=ExampleRetryTrigger --entry-point=hello_pubsub --allow-unauthenticated \
  --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',SUBSCRIPTION='ExamplePubSubRetryTopic-sub'
-
-# This section only needs to be done once for all examples. All examples will use the same Retry Schedule/Topic
 
 gcloud pubsub topics create ExampleRetryTrigger
 

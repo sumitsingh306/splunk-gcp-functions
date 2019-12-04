@@ -44,37 +44,36 @@ gcloud scheduler jobs create pubsub ExampleMetricsSchedule --schedule "*/5 * * *
 
 # ..End of common Metric trigger section
 
-#create retry topics/subscription
-
-gcloud pubsub topics create ExampleEventsRetryTopic
-
-gcloud pubsub subscriptions create --topic ExampleEventsRetryTopic ExampleEventsRetryTopic-sub
-
 
 #this command only needs to be done once for all of the examples
 git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
-cd splunk-gcp-functions/PubSubFunction
 
-cd ../Metrics
+cd splunk-gcp-functions/Metrics
 
 #create function
 
 gcloud functions deploy ExampleMetricsEventsFunction --runtime python37 /
 --trigger-topic=ExampleMetricsTriggerTopic --entry-point=hello_pubsub --allow-unauthenticated /
---set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',METRICS_LIST='["compute.googleapis.com/instance/cpu/utilization","compute.googleapis.com/instance/disk/read_ops_count","compute.googleapis.com/instance/disk/write_bytes_count","compute.googleapis.com/instance/disk/write_ops_count","compute.googleapis.com/instance/network/received_bytes_count","compute.googleapis.com/instance/network/received_packets_count","compute.googleapis.com/instance/network/sent_bytes_count","compute.googleapis.com/instance/network/sent_packets_count","compute.googleapis.com/instance/uptime"]',TIME_INTERVAL='5',RETRY_TOPIC='ExampleEventsRetryTopic'
+--set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',METRICS_LIST='["compute.googleapis.com/instance/cpu/utilization","compute.googleapis.com/instance/disk/read_ops_count","compute.googleapis.com/instance/disk/write_bytes_count","compute.googleapis.com/instance/disk/write_ops_count","compute.googleapis.com/instance/network/received_bytes_count","compute.googleapis.com/instance/network/received_packets_count","compute.googleapis.com/instance/network/sent_bytes_count","compute.googleapis.com/instance/network/sent_packets_count","compute.googleapis.com/instance/uptime"]',TIME_INTERVAL='5',RETRY_TOPIC='ExamplePubSubRetryTopic'
 
-cd ../RetryBatch
+#This is a common section for all examples
+#Doesn't need to be repeated for all unless you wish to have separate PubSub Topics for retrying different events.
+
+gcloud pubsub topics create ExamplePubSubRetryTopic
+
+gcloud pubsub subscriptions create --topic ExamplePubSubRetryTopic ExamplePubSubRetryTopic-sub
+cd ../RetryEvent
 
 #create Retry function
 
-gcloud functions deploy ExampleEventsRetryFunction --runtime python37 --trigger-topic=ExampleRetryTrigger --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',SUBSCRIPTION='ExampleEventsRetryTopic-sub',EVENT_TYPE='EVENT'
-
-
-# This section only needs to be done once for all examples. All examples will use the same Retry Schedule/Topic
+gcloud functions deploy ExamplePubSubRetry --runtime python37 \
+ --trigger-topic=ExampleRetryTrigger --entry-point=hello_pubsub --allow-unauthenticated \
+ --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',SUBSCRIPTION='ExamplePubSubRetryTopic-sub'
 
 gcloud pubsub topics create ExampleRetryTrigger
 
 gcloud scheduler jobs create pubsub ExampleRetrySchedule --schedule "*/10 * * * *" --topic ExampleRetryTrigger --message-body "Retry"
+
 
 </pre>
