@@ -43,10 +43,10 @@ Default is original message URL. Do not set if you wish to keep original destina
 Note that this should be set on the Splunk side to be the same Index-type the token used for the function that is using this as a retry i.e. if a metrics index was the destination of the original, this over-ride token should indicate a metrics index also
 Default is original message Token. Do not set if you wish to keep original destination</td></tr>
 <tr><td>EVENT_TYPE</td><td>Only Set if HEC_TOKEN and HEC_URL are set to over-ride the original event. Valid values: METRICS, EVENT, RAW
-METRIC : use this for Metrics going into Metrics index
-EVENT : use this for Metrics going into Event index
-RAW : use this for GCS Function re-try. 
-Do not set this value if not over-riding destination</td></tr>
+\nMETRIC : use this for Metrics going into Metrics index
+\nEVENT : use this for Metrics going into Event index
+\nRAW : use this for GCS Function re-try. 
+\nDo not set this value if not over-riding destination</td></tr>
 </table>
 
 
