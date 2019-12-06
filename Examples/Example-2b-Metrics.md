@@ -65,7 +65,7 @@ gcloud functions deploy ExampleMetricsFunction --runtime python37 \
 gcloud pubsub topics create ExamplePubSubRetryTopic
 
 gcloud pubsub subscriptions create --topic ExamplePubSubRetryTopic ExamplePubSubRetryTopic-sub
-cd ../RetryEvent
+cd ../Retry
 
 #create Retry function
 

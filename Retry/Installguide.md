@@ -56,7 +56,7 @@ Default is original message Token. Do not set if you wish to keep original desti
 
 git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
-cd splunk-gcp-functions/RetryEvent
+cd splunk-gcp-functions/Retry
 
 gcloud functions deploy **myRetryEventFunction** --runtime python37 --trigger-topic=**RETRY_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=PROJECTID='**Project-id**',SUBSCRIPTION='**Retry_PubSub_Subscription**'
 
