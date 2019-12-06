@@ -46,8 +46,8 @@ Metrics Function requires the RetryBatch Function
 ## Function Environment Variables
 
 <table><tr><td><strong>Variable</strong></td><td><strong>Value</strong></td></tr>
-<tr><td>HEC_URL</td><td>Hostname/IP address for URL for Splunk HEC (Load balancer required for cluster)
-e.g. mysplunkinstance.splunk.com or 113.114.115.192</td></tr>
+<tr><td>HEC_URL</td><td>Hostname/IP address and port number for URL for Splunk HEC (Load balancer required for cluster)
+e.g. mysplunkinstance.splunk.com:8088 or 113.114.115.192:8088</td></tr>
 <tr><td>HEC_TOKEN</td><td>HEC Token for the input. Generate on Splunk instance.
 Ideally this should be the same as the token used for the function that is using this as a retry
 </td></tr>
@@ -68,6 +68,7 @@ Defaults to EVENT
 <tr><td>RETRY_TOPIC</td><td>Name of Topic to send event/metric to on any failure scenario for the function</td></tr>
 </table>
 
+If a CLI is used for this function, the configuration for the environment variables needs to be put into a configuration yaml file due to the list of metrics. The example below assumes that the variables have been set in a file, whereas the examples include a script to create that file.
 
 ## Install with gcloud CLI
 
@@ -77,7 +78,7 @@ git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
 cd splunk-gcp-functions/Metrics
 
-gcloud functions deploy **myMetricsFunction** --runtime python37 --trigger-topic=**METRICS_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',METRICS_LIST='[**METRICS_LIST_COMMA_SEPERATED**]',TIME_INTERVAL='**INTERVAL_IN_MINS**',RETRY_TOPIC='**Retry_Topic**'
+gcloud functions deploy **myMetricsFunction** --runtime python37 --trigger-topic=**METRICS_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --env-vars-file **EnvironmentVariablesFile.yaml**
 
 ** *Update the bold values with your own settings* **
 (The command above uses the basic list of environment variables, using defaults)

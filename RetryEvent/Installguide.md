@@ -35,8 +35,8 @@ Create a Cloud Schedule, triggering the Retry PubSub Topic. Schedule this for ho
 <table><tr><td><strong>Variable</strong></td><td><strong>Value</strong></td></tr>
 <tr><td>PROJECTID</td><td>Project ID for where the Retry Topic exists</td></tr>
 <tr><td>SUBSCRIPTION</td><td>Name of the subscription that pulls from the Retry/Error PubSub Topic.</td></tr>
-<tr><td>HEC_URL</td><td>OVER-RIDE Hostname/IP address for URL for Splunk HEC (Load balancer required for cluster)
-e.g. mysplunkinstance.splunk.com or 113.114.115.192
+<tr><td>HEC_URL</td><td>OVER-RIDE Hostname/IP address and port number for URL for Splunk HEC (Load balancer required for cluster)
+e.g. mysplunkinstance.splunk.com:8088 or 113.114.115.192:8088
 This will point the destination of the message to a different URL to the originating message
 Default is original message URL. Do not set if you wish to keep original destination</td></tr>
 <tr><td>HEC_TOKEN</td><td>HEC Token to OVER-RIDE the original destination for the event. Generate on Splunk instance. 

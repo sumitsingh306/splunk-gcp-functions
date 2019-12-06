@@ -46,8 +46,8 @@ PubSub Function requires the RetryEvent Function. Install and set up the RetryEv
 #### Function Environment Variables
 
 <table><tr><td><strong>Variable</strong></td><td><strong>Value</strong></td></tr>
-<tr><td>HEC_URL</td><td>Hostname/IP address for URL for Splunk HEC (Load balancer required for cluster)
-e.g. mysplunkinstance.splunk.com or 113.114.115.192</td></tr>
+<tr><td>HEC_URL</td><td>Hostname/IP address and port number for URL for Splunk HEC (Load balancer required for cluster)
+e.g. mysplunkinstance.splunk.com:8088 or 113.114.115.192:8088</td></tr>
 <tr><td>HEC_TOKEN</td><td>HEC Token for the input. Generate on Splunk instance.</td></tr>
 <tr><td>PROJECTID</td><td>Project ID for where the Retry Topic exists</td></tr>
 <tr><td>HOST</td><td>Host value that Splunk will assign for the PubSub event. Defaults to GCPFunction</td></tr>

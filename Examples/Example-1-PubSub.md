@@ -35,6 +35,9 @@ This example will create 2 example Log Export Sinks, 3 PubSub Topics and use the
 <pre>
 
 #this section is specific for this example only
+
+gcloud pubsub topics create ExamplePubSubTopic
+
 #create log-sinks...
 
 gcloud logging sinks create ExampleSinkForFunctions \

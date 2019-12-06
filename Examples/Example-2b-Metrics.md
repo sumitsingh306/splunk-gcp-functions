@@ -1,6 +1,6 @@
-# Example 2a Metrics Collection (Event Index)
+# Example 2b Metrics Collection (Metrics Index)
 
-This example will create a Cloud Schedule which triggers the Metrics Function (via a PubSub Topic). The function will send the metrics into Splunk HEC as an Event format (into an Event index). The script will also create a retry PubSub Topic, and set up a Function to retry any failed messages to HEC. 
+This example will create a Cloud Schedule which triggers the Metrics Function (via a PubSub Topic). The function will send the metrics into Splunk HEC as a metric format (into an metric index). The script will also create a retry PubSub Topic, and set up a Function to retry any failed messages to HEC. 
 (If you have already created any other examples, the Cloud Schedule and PubSub Trigger topic doesn't need to be re-created)
 
 #### PubSub Topics:
@@ -12,18 +12,17 @@ This example will create a Cloud Schedule which triggers the Metrics Function (v
 **ExampleRetryTrigger** : This topic can be common between all functions and triggers retries based on Cloud Schedule
 
 
-
 #### GCP Functions:
 
-**ExampleMetricsEventFunction** : Function to pull sample of metrics from compute. Formatted as an Event into HEC
+**ExampleMetricsFunction** : Function to pull sample of metrics from compute. Formatted as a metric into metrics index via HEC
 
-**ExampleEventsRetryTopic** : Retry Function to pull any failed messages from ExampleMetricsFunction
+**ExampleMetricRetryTopic** : Retry Function to pull any failed messages from ExampleMetricsFunction
 
 
 #### Cloud Scheduler
 
-**ExampleMetricsSchedule** : Schedule for Running Events (5mins)
-**ExampleRetry** : Retry Schedule (10mins)
+**ExampleMetricsSchedule** : Schedule for Running Events (5mins) - Common for all metrics examples
+**ExampleRetry** : Retry Schedule (10mins) - common for all examples
 
 
 ## CLI Example
@@ -53,11 +52,11 @@ cd splunk-gcp-functions/Metrics
 
 #create function
 
-echo -e "HEC_URL: '<strong>HOSTNAME_OR_IP_FOR_HEC</strong>'\\nHEC_TOKEN: <strong>0000-0000-0000-0000</strong>\\nPROJECTID: <strong>Project-id</strong>\\nTIME_INTERVAL: '5'\\nRETRY_TOPIC: ExamplePubSubRetryTopic\\nMETRICS_LIST: '["compute.googleapis.com/instance/cpu/utilization","compute.googleapis.com/instance/disk/read_ops_count","compute.googleapis.com/instance/disk/write_bytes_count","compute.googleapis.com/instance/disk/write_ops_count","compute.googleapis.com/instance/network/received_bytes_count","compute.googleapis.com/instance/network/received_packets_count","compute.googleapis.com/instance/network/sent_bytes_count","compute.googleapis.com/instance/network/sent_packets_count","compute.googleapis.com/instance/uptime"]'" > EnvVarsEventMetrics.yaml
+echo -e "HEC_URL: '<strong>HOSTNAME_OR_IP_FOR_HEC</strong>'\\nHEC_TOKEN: <strong>0000-0000-0000-0000</strong>\\nPROJECTID: <strong>Project-id</strong>\\nTIME_INTERVAL: '5'\\nRETRY_TOPIC: ExamplePubSubRetryTopic\\nMETRIC_INDEX_TYPE: METRICS\\nMETRICS_LIST: '["compute.googleapis.com/instance/cpu/utilization","compute.googleapis.com/instance/disk/read_ops_count","compute.googleapis.com/instance/disk/write_bytes_count","compute.googleapis.com/instance/disk/write_ops_count","compute.googleapis.com/instance/network/received_bytes_count","compute.googleapis.com/instance/network/received_packets_count","compute.googleapis.com/instance/network/sent_bytes_count","compute.googleapis.com/instance/network/sent_packets_count","compute.googleapis.com/instance/uptime"]'" > EnvVarsMetrics.yaml
 
-gcloud functions deploy ExampleMetricsEventsFunction --runtime python37 \
+gcloud functions deploy ExampleMetricsFunction --runtime python37 \
 --trigger-topic=ExampleMetricsTriggerTopic --entry-point=hello_pubsub --allow-unauthenticated \
---env-vars-file EnvVarsEventMetrics.yaml
+--env-vars-file EnvVarsMetrics.yaml
 
 
 #This is a common section for all examples
