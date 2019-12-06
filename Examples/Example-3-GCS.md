@@ -17,7 +17,7 @@ This example will create 2 PubSub Topics, create the GCS Function with a Retry F
 
 ## GCS Bucket
 
-**ExampleBucketXXXX** : Example GCS Bucket - note you will need to change the name to make sure that the bucket name is globally unique.
+**example-bucket-xxxx** : Example GCS Bucket - note you will need to change the name to make sure that the bucket name is globally unique.
 
 
 ## CLI Example Scripts
