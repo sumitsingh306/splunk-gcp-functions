@@ -139,7 +139,7 @@ def splunkHec(logdata,source):
     errorHandler(logdata,source,url,token)
   except requests.exceptions.ConnectionError as errc:
     print ("Error Connecting:",errc)
-    errorHandler(logdata,source)
+    errorHandler(logdata,source,url,token)
   except requests.exceptions.Timeout as errt:
     print ("Timeout Error:",errt)
     errorHandler(logdata,source,url,token)

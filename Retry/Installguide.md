@@ -47,6 +47,7 @@ Default is original message Token. Do not set if you wish to keep original desti
 <br>EVENT : use this for Metrics going into Event index
 <br>RAW : use this for GCS Function re-try. 
 <br>Do not set this value if not over-riding destination</td></tr>
+<tr><td>BATCH</td><td>Number of events to pull from Retry PubSub in one call. Note that higher numbers here will result in a higher execution time if there are significant number of events to pull from the topic. Take care not to set this too high, or adjust the function timeout to accomodate.<br>Default = 300</td></tr>
 </table>
 
 
@@ -58,7 +59,7 @@ git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
 cd splunk-gcp-functions/Retry
 
-gcloud functions deploy **myRetryEventFunction** --runtime python37 --trigger-topic=**RETRY_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=PROJECTID='**Project-id**',SUBSCRIPTION='**Retry_PubSub_Subscription**'
+gcloud functions deploy **myRetryEventFunction** --runtime python37 --trigger-topic=**RETRY_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --timeout=120 --set-env-vars=PROJECTID='**Project-id**',SUBSCRIPTION='**Retry_PubSub_Subscription**'
 
 ** *Update the bold values with your own settings* **
 

@@ -70,7 +70,7 @@ cd ../Retry
 #create Retry function
 
 gcloud functions deploy ExamplePubSubRetry --runtime python37 \
- --trigger-topic=ExampleRetryTrigger --entry-point=hello_pubsub --allow-unauthenticated \
+ --trigger-topic=ExampleRetryTrigger --entry-point=hello_pubsub --allow-unauthenticated --timeout=120 \
  --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',SUBSCRIPTION='ExamplePubSubRetryTopic-sub'
 
 gcloud pubsub topics create ExampleRetryTrigger

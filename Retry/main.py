@@ -26,7 +26,7 @@ def hello_pubsub(event, context):
          event (dict): Event payload.
          context (google.cloud.functions.Context): Metadata for the event.
     """
-    #messageCount=phoneHome()
+    
     messageCount=1
     while messageCount!=0:
         try:
@@ -39,11 +39,14 @@ def synchronous_pull(project_id, subscription_name):
     # [START pubsub_subscriber_sync_pull]
     from google.cloud import pubsub_v1
 
-    
+    try:
+        NUM_MESSAGES=os.environ['BATCH']
+    except:
+        NUM_MESSAGES=300 #default pull from pub-sub
+
     subscriber = pubsub_v1.SubscriberClient()
     subscription_path = subscriber.subscription_path(project_id, subscription_name)
-    NUM_MESSAGES = 100     #max pull from pub-sub
-
+        
     # The subscriber pulls a specific number of messages.
     response = subscriber.pull(subscription_path, max_messages=NUM_MESSAGES)
 
@@ -121,35 +124,3 @@ def splunkHec(url,token,logdata):
     return False
   return True
         
-'''def phoneHome(): 
-    #do a quick health check call to HEC - if there is still a connection issue, then no need to try remainder of function
-    url = 'https://'+os.environ['HEC_URL']+'/services/collector/health'
-    s = requests.Session() 
-    s.mount( 'http://' , HTTPAdapter(max_retries= 3 )) 
-    s.mount( 'https://' , HTTPAdapter(max_retries= 3 ))
-
-    try:
-        r = s.get(url, verify=False, timeout=2)
-        r.raise_for_status()
-    except requests.exceptions.HTTPError as errh:
-        print ("Http Error:",errh)
-        if errh.response.status_code<500:
-            print(r.json())
-        return 0
-    except requests.exceptions.ConnectionError as errc:
-        print ("Error Connecting:",errc)
-        return 0
-    except requests.exceptions.Timeout as errt:
-        print ("Timeout Error:",errt)
-        return 0
-    except requests.exceptions.RequestException as err:
-        print ("Error: ",err)
-        return 0
-    except:
-        print("unknown Error in http get health")
-        return 0 
-    #print(r.status_code)
-    if r.status_code==200:
-        return 1
-    else:
-        return 0'''
