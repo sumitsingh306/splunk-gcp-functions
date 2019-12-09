@@ -48,7 +48,7 @@ git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
 cd splunk-gcp-functions/Asset
 
-gcloud functions deploy **myAssetFunction** --runtime python37 --trigger-topic=**RETRY_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --timeout=120 --set-env-vars=PROJECTID='**Project-id**',GCS_FILE_PATH='**Path-and-prefix-to-GCS-Bucket**'
+gcloud functions deploy **myAssetFunction** --runtime python37 --trigger-topic=**ASSETS_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --timeout=120 --set-env-vars=PROJECTID='**Project-id**',GCS_FILE_PATH='**Path-and-prefix-to-GCS-Bucket**'
 
 ** *Update the bold values with your own settings* **
 
