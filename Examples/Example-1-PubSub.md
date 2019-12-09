@@ -71,7 +71,7 @@ LOG_SINK_SERVICE_ACCOUNT="$(cat /tmp/tmp.txt |grep -Po "serviceAccount:(\S\d*-\d
 
 gcloud logging sinks create $PUBSUB_SINK2 \
   pubsub.googleapis.com/projects/$MY_PROJECT/topics/$PUBSUB_TOPIC \
-  --log-filter="resource.type!=cloud_function"
+  --log-filter="protoPayload.serviceName="container.googleapis.com"
 
 #the last command will return the LOG_SINK_SERVICE_ACCOUNT 
 gcloud pubsub topics add-iam-policy-binding $PUBSUB_TOPIC \
