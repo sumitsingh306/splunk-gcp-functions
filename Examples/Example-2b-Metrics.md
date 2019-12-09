@@ -30,16 +30,35 @@ This example will create a Cloud Schedule which triggers the Metrics Function (v
 (run in bash or the Cloud Shell)
 
 **Note that you will need to change values in bold in the scripts below to identify your project id, Log-Sink Service Account, HEC URL and HEC Token**
+You can also change the OS environment variables in the first section to fit your needs
 
 <pre>
+
+
+#set OS environment variables for script. Change these for your deployment
+
+MY_PROJECT=<strong>MY_PROJECT</strong>
+METRICS_FUNCTION=ExampleMetricsFunction
+METRICS_TRIGGER=ExampleMetricsTriggerTopic
+METRICS_SCHEDULE=ExampleMetricsSchedule
+
+HEC_URL=<strong>URL-OR-IP-AND-PORT-FOR-HEC</strong>
+METRICS_TOKEN=<strong>TOKEN-0000-0000-0000-0000</strong>
+
+RETRY_FUNCTON=ExamplePubSubRetry
+RETRY_TOPIC=ExamplePubSubRetryTopic
+RETRY_SUBSCRIPTION=ExamplePubSubRetryTopic-sub
+RETRY_TRIGGER_PUBSUB=ExampleRetryTrigger
+RETRY_SCHEDULE=ExampleRetrySchedule
+
 
 #This Schedule and topic only needs to be created once for all metrics functions unless you want different schedules. 
 #Note:Match the schedule to the value in the TIME_INTERVAL environment variable below
 #This example assumes a 5 minute schedule
 
-gcloud pubsub topics create ExampleMetricsTriggerTopic
+gcloud pubsub topics create $METRICS_TRIGGER
 
-gcloud scheduler jobs create pubsub ExampleMetricsSchedule --schedule "*/5 * * * *" --topic ExampleMetricsTriggerTopic --message-body "RunMetric"
+gcloud scheduler jobs create pubsub $METRICS_SCHEDULE --schedule "*/5 * * * *" --topic $METRICS_TRIGGER --message-body "RunMetric"
 
 # ..End of common Metric trigger section
 
@@ -47,35 +66,34 @@ gcloud scheduler jobs create pubsub ExampleMetricsSchedule --schedule "*/5 * * *
 #this command only needs to be done once for all of the examples
 git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
 
-
 cd splunk-gcp-functions/Metrics
 
 #create function
 
-echo -e "HEC_URL: '<strong>HOSTNAME_OR_IP_FOR_HEC</strong>'\\nHEC_TOKEN: <strong>0000-0000-0000-0000</strong>\\nPROJECTID: <strong>Project-id</strong>\\nTIME_INTERVAL: '5'\\nRETRY_TOPIC: ExamplePubSubRetryTopic\\nMETRIC_INDEX_TYPE: METRICS\\nMETRICS_LIST: '["compute.googleapis.com/instance/cpu/utilization","compute.googleapis.com/instance/disk/read_ops_count","compute.googleapis.com/instance/disk/write_bytes_count","compute.googleapis.com/instance/disk/write_ops_count","compute.googleapis.com/instance/network/received_bytes_count","compute.googleapis.com/instance/network/received_packets_count","compute.googleapis.com/instance/network/sent_bytes_count","compute.googleapis.com/instance/network/sent_packets_count","compute.googleapis.com/instance/uptime"]'" > EnvVarsMetrics.yaml
+echo -e "HEC_URL: $HEC_URL\\nHEC_TOKEN: $METRICS_TOKEN\\nPROJECTID: $MY_PROJECT\\nTIME_INTERVAL: '5'\\nRETRY_TOPIC: $RETRY_TOPIC\\nMETRIC_INDEX_TYPE: METRICS\\nMETRICS_LIST: '[\"compute.googleapis.com/instance/cpu/utilization\",\"compute.googleapis.com/instance/disk/read_ops_count\",\"compute.googleapis.com/instance/disk/write_bytes_count\",\"compute.googleapis.com/instance/disk/write_ops_count\",\"compute.googleapis.com/instance/network/received_bytes_count\",\"compute.googleapis.com/instance/network/received_packets_count\",\"compute.googleapis.com/instance/network/sent_bytes_count\",\"compute.googleapis.com/instance/network/sent_packets_count\",\"compute.googleapis.com/instance/uptime\"]'" > EnvVars.yaml
 
-gcloud functions deploy ExampleMetricsFunction --runtime python37 \
---trigger-topic=ExampleMetricsTriggerTopic --entry-point=hello_pubsub --allow-unauthenticated \
---env-vars-file EnvVarsMetrics.yaml
+gcloud functions deploy $METRICS_FUNCTION --runtime python37 \
+--trigger-topic=$METRICS_TRIGGER --entry-point=hello_pubsub --allow-unauthenticated \
+--env-vars-file EnvVars.yaml
 
 
 #This is a common section for all examples
 #Doesn't need to be repeated for all unless you wish to have separate PubSub Topics for retrying different events.
 
-gcloud pubsub topics create ExamplePubSubRetryTopic
+gcloud pubsub topics create $RETRY_TOPIC
 
-gcloud pubsub subscriptions create --topic ExamplePubSubRetryTopic ExamplePubSubRetryTopic-sub
+gcloud pubsub subscriptions create --topic $RETRY_TOPIC $RETRY_SUBSCRIPTION
 cd ../Retry
 
 #create Retry function
 
-gcloud functions deploy ExamplePubSubRetry --runtime python37 \
- --trigger-topic=ExampleRetryTrigger --entry-point=hello_pubsub --allow-unauthenticated --timeout=120 \
- --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',SUBSCRIPTION='ExamplePubSubRetryTopic-sub'
+gcloud functions deploy $RETRY_FUNCTON --runtime python37 \
+ --trigger-topic=$RETRY_TRIGGER_PUBSUB --entry-point=hello_pubsub --allow-unauthenticated \
+ --set-env-vars=HEC_URL=$HEC_URL,HEC_TOKEN=$PUBSUB_TOKEN,PROJECTID=$MY_PROJECT,SUBSCRIPTION=$RETRY_SUBSCRIPTION
 
-gcloud pubsub topics create ExampleRetryTrigger
+gcloud pubsub topics create $RETRY_TRIGGER_PUBSUB
 
-gcloud scheduler jobs create pubsub ExampleRetrySchedule --schedule "*/10 * * * *" --topic ExampleRetryTrigger --message-body "Retry"
+gcloud scheduler jobs create pubsub $RETRY_SCHEDULE --schedule "*/10 * * * *" --topic $RETRY_TRIGGER_PUBSUB --message-body "Retry"
 
 
 </pre>

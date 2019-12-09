@@ -30,26 +30,52 @@ This example will create 2 example Log Export Sinks, 3 PubSub Topics and use the
 (run in bash or the Cloud Shell)
 
 **Note that you will need to change values in bold in the scripts below to identify your project id, Log-Sink Service Account, HEC URL and HEC Token**
+You can also change the OS environment variables in the first section to fit your needs
 
 
 <pre>
 
+#set OS environment variables for script. Change these for your deployment
+
+MY_PROJECT=<strong>MY_PROJECT</strong>
+PUBSUB_FUNCTION=ExamplePubSubFunction
+
+PUBSUB_TOPIC=ExamplePubSubLogsTopic
+PUBSUB_SINK1=ExampleSinkForFunctions
+PUBSUB_SINK2=ExampleSinkNoFunctions
+
+HEC_URL=<strong>URL-OR-IP-AND-PORT-FOR-HEC</strong>
+PUBSUB_TOKEN=<strong>TOKEN-0000-0000-0000-0000</strong>
+
+RETRY_FUNCTON=ExamplePubSubRetry
+RETRY_TOPIC=ExamplePubSubRetryTopic
+RETRY_SUBSCRIPTION=ExamplePubSubRetryTopic-sub
+RETRY_TRIGGER_PUBSUB=ExampleRetryTrigger
+RETRY_SCHEDULE=ExampleRetrySchedule
+
+
+
 #this section is specific for this example only
 
-gcloud pubsub topics create ExamplePubSubTopic
+gcloud pubsub topics create $PUBSUB_TOPIC
 
 #create log-sinks...
 
-gcloud logging sinks create ExampleSinkForFunctions \
-  pubsub.googleapis.com/projects/<strong>MY-PROJECT</strong>/topics/ExamplePubSubLogsTopic \
-  --log-filter="resource.labels.function_name!=ExamplePubSub"
+#!!always include this if you want to log cloud functions - eliminates the race condition of logging own logs!!
+gcloud logging sinks create $PUBSUB_SINK1 \
+  pubsub.googleapis.com/projects/$MY_PROJECT/topics/$PUBSUB_TOPIC \
+  --log-filter="resource.labels.function_name!=$PUBSUB_FUNCTION"
 
-gcloud logging sinks create ExampleSinkNoFunctions \
-  pubsub.googleapis.com/projects/<strong>MY-PROJECT</strong>/topics/ExamplePubSubLogsTopic \
-  --log-filter="protoPayload.serviceName=container.googleapis.com"
+gcloud logging sinks describe $PUBSUB_SINK1 > /tmp/tmp.txt
+LOG_SINK_SERVICE_ACCOUNT="$(cat /tmp/tmp.txt |grep -Po "serviceAccount:(\S\d*-\d*\@\D+)")"
 
-gcloud pubsub topics add-iam-policy-binding ExamplePubSubLogsTopic \
-  --member serviceAccount:<strong>LOG-SINK-SERVICE-ACCOUNT</strong> --role roles/pubsub.publisher
+gcloud logging sinks create $PUBSUB_SINK2 \
+  pubsub.googleapis.com/projects/$MY_PROJECT/topics/$PUBSUB_TOPIC \
+  --log-filter="resource.type!=cloud_function"
+
+#the last command will return the LOG_SINK_SERVICE_ACCOUNT 
+gcloud pubsub topics add-iam-policy-binding $PUBSUB_TOPIC \
+  --member $LOG_SINK_SERVICE_ACCOUNT  --role roles/pubsub.publisher
 
 #the clone command only needs to be done once for all of the examples
 git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
@@ -58,28 +84,28 @@ cd splunk-gcp-functions/PubSubFunction
 
 #create function
 
-gcloud functions deploy ExamplePubSubFunction --runtime python37 \
-  --trigger-topic=ExamplePubSubLogsTopic --entry-point=hello_pubsub \
+gcloud functions deploy $PUBSUB_FUNCTION --runtime python37 \
+  --trigger-topic=$PUBSUB_TOPIC --entry-point=hello_pubsub \
   --allow-unauthenticated \
-  --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',RETRY_TOPIC='ExamplePubSubRetryTopic'
+  --set-env-vars=HEC_URL=$HEC_URL,HEC_TOKEN=$PUBSUB_TOKEN,PROJECTID=$MY_PROJECT,RETRY_TOPIC=$RETRY_TOPIC
 
 
 #This is a common section for all examples
 #Doesn't need to be repeated for all unless you wish to have separate PubSub Topics for retrying different events.
 
-gcloud pubsub topics create ExamplePubSubRetryTopic
+gcloud pubsub topics create $RETRY_TOPIC
 
-gcloud pubsub subscriptions create --topic ExamplePubSubRetryTopic ExamplePubSubRetryTopic-sub
+gcloud pubsub subscriptions create --topic $RETRY_TOPIC $RETRY_SUBSCRIPTION
 cd ../Retry
 
 #create Retry function
 
-gcloud functions deploy ExamplePubSubRetry --runtime python37 \
- --trigger-topic=ExampleRetryTrigger --entry-point=hello_pubsub --allow-unauthenticated --timeout=120 \
- --set-env-vars=HEC_URL='<strong>HOSTNAME_OR_IP_FOR_HEC</strong>',HEC_TOKEN='<strong>0000-0000-0000-0000</strong>',PROJECTID='<strong>Project-id</strong>',SUBSCRIPTION='ExamplePubSubRetryTopic-sub'
+gcloud functions deploy $RETRY_FUNCTON --runtime python37 \
+ --trigger-topic=$RETRY_TRIGGER_PUBSUB --entry-point=hello_pubsub --allow-unauthenticated \
+ --set-env-vars=HEC_URL=$HEC_URL,HEC_TOKEN=$PUBSUB_TOKEN,PROJECTID=$MY_PROJECT,SUBSCRIPTION=$RETRY_SUBSCRIPTION
 
-gcloud pubsub topics create ExampleRetryTrigger
+gcloud pubsub topics create $RETRY_TRIGGER_PUBSUB
 
-gcloud scheduler jobs create pubsub ExampleRetrySchedule --schedule "*/10 * * * *" --topic ExampleRetryTrigger --message-body "Retry"
+gcloud scheduler jobs create pubsub $RETRY_SCHEDULE --schedule "*/10 * * * *" --topic $RETRY_TRIGGER_PUBSUB --message-body "Retry"
 
 </pre>
