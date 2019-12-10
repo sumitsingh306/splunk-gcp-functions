@@ -94,7 +94,7 @@ case $1 in
 esac
 
 #Example 1
-if [ $CLEAN = -eq ] || [ $CLEAN -eq 0 ]
+if [ $CLEAN -eq 1 ] || [ $CLEAN -eq 0 ]
 then
 	gcloud functions delete $PUBSUB_FUNCTION --quiet
 	gcloud logging sinks delete $PUBSUB_SINK1 --quiet
@@ -138,7 +138,7 @@ then
 fi
 
 #Common for All
-if [ $2 == "R" ] || [ $CLEAN -eq 0 ] 
+if [ $2 = "R" ] || [ $CLEAN -eq 0 ] 
 then
 	gcloud functions delete $RETRY_FUNCTON --quiet
 	gcloud scheduler jobs delete $RETRY_SCHEDULE --quiet
