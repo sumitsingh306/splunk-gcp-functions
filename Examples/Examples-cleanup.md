@@ -5,7 +5,7 @@ The script below cleans up (destructively) the examples created.
 ## Warning
 **THIS CANNOT BE UNDONE!!!** 
 Make sure you don't want to keep any remaining data!!!
-The following commands also deletes all objects stored within the buckets. These objects cannot be recovered. If you want to avoid accidentally deleting objects, use the gsutil rb command below, which only deletes a bucket if the bucket is empty.
+The following commands also deletes all objects stored within the buckets. These objects cannot be recovered. If you want to avoid accidentally deleting objects, use the replace gsutil rm with the gsutil rb command below, which only deletes a bucket if the bucket is empty.
 
 
 Update the Highlighted items, and save as a shell script (e.g. cleanup.sh). 
