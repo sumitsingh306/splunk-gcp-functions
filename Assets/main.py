@@ -8,7 +8,7 @@ import time
 
 def hello_pubsub(event, context):
     
-    project_id = os.environ['PROJECT_ID']
+    project_id = os.environ['PROJECTID']
     dump_file_path = os.environ['GCS_FILE_PATH']
     now = time.time()
     export_assets(project_id, dump_file_path+str(now))
