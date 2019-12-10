@@ -66,7 +66,7 @@ cd splunk-gcp-functions/Assets
 #create triggers
 gcloud pubsub topics create $ASSETS_TRIGGER_PUBSUB
 
-gcloud scheduler jobs create pubsub $ASSETS_SCHEDULE --schedule "* */6 * * *" --topic $ASSETS_TRIGGER_PUBSUB --message-body "Assets"
+gcloud scheduler jobs create pubsub $ASSETS_SCHEDULE --schedule "0 */6 * * *" --topic $ASSETS_TRIGGER_PUBSUB --message-body "Assets"
 
 
 #create function

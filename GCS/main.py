@@ -15,17 +15,16 @@ SOFTWARE. '''
 import logging
 import os
 from google.cloud import storage
-
+#import time
+#import json
+#from datetime import datetime
+#from datetime import date
+#import time
 
 import base64
 import argparse
 import pprint
-#import time
-#import json
 import re
-#from datetime import datetime
-#from datetime import date
-#import time
 import requests
 from requests.adapters import HTTPAdapter
 import urllib3
@@ -53,8 +52,12 @@ def read_file(file):
     objectname=file['bucket']+'/'+file['name']
     bucket = storage_client.get_bucket(file['bucket'])
     blob = bucket.blob(file['name'])
-    contents = blob.download_as_string().decode("utf-8")
-    
+    try:
+      contents = blob.download_as_string().decode("utf-8")
+    except:
+      #exception happens when partial uploads/file not complete. Drop out of the function gracefully
+      print('not sent to Splunk - incomplete upload')
+      return
     startpt = 0
     lastpt = batch
     message_count=0
