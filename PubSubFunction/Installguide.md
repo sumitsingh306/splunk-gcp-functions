@@ -35,7 +35,7 @@ cd splunk-gcp-functions/PubSubFunction
 
 gcloud functions deploy **myPubSubFunction** --runtime python37 --trigger-topic=**TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',RETRY_TOPIC='**Retry_Topic**'
 
-** *Update the bold values with your own settings* **
+***Update the bold values with your own settings***
 
 (The command above uses the basic list of environment variables)
 

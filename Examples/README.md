@@ -1,7 +1,11 @@
 # Example Configuration builds
 
-The files here contain scripts can be executed in a GCP CLI to build a full sample configurations using all of the functions in this library. The following configurations are created:
+The files here contain scripts can be executed to build a full sample configurations using all of the functions in this library. The following configurations are created:
 (Note that there are some common sections for these examples, which do not need to be re-run if one of the other examples has been created. This is noted in the scripts)
+
+To run the examples, you can either run directly from the Cloud Shell in the GCP console (click **>_** to activate Cloud Shell), or by downloading the SDK or Quickstart onto your host/local machine (see here - https://cloud.google.com/sdk/install)
+
+Make sure you have installed git on the host running the example scripts (GCP's Cloud Shell already has this installed).
 
 ## Example 1: PubSub 
 
@@ -31,8 +35,9 @@ The example creates a function to collect asset information periodically, writin
 
 The Examples can be cleaned up by copying and saving the script in the cleanup page. Update the variables (bucket names) highlighted in the script. Note that if you have changed the variables in any way, remember to change these for the cleanup, otherwise you may have services or components remaining after runing the script. **Note that this is a destructive process that cannot be undone - take care not to delete buckets or topics that contain data you wish to keep.**
 
-#### Log export Sinks:
+## What the Scripts create...
 
+#### Log export Sinks:
 
 <table><tr><td><strong>Sink</strong></td><td><strong>Description</strong></td><td><strong>Filter</strong></td></tr>
 <tr><td>ExampleSinkFunctions</td><td>Selects all GCP Function logs. Important note that it filters out the PubSub Function!!</td><td>resource.labels.function_name!="ExamplePubSub"</td></tr>

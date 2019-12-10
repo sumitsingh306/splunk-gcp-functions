@@ -13,7 +13,7 @@ GCS Object -> GCP Function -> PubSub Retry Topic
 Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub Retry Topic)-> HEC
 
 
-## **Pre-requisites – **
+## **Pre-requisites –**
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
 HEC token/input MUST allow access to an index and specify a sourcetype for the log type being ingested. Note that all objects in the GCS bucket will be assigned both sourcetype and index per the token.
 Splunk: sourcetype (event break/time) must be set on the receiving indexers. (Note – you will need to use the event breaker regex for this function setup)
@@ -35,7 +35,7 @@ cd splunk-gcp-functions/GCS
 
 gcloud functions deploy **myGCSFunction** --runtime python37 --trigger-bucket=**TRIGGER_BUCKET** --entry-point=hello_gcs --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',RETRY_TOPIC='**Retry_Topic**'
 
-** *Update the bold values with your own settings* **
+***Update the bold values with your own settings***
 
 (The command above uses the basic list of environment variables, with newline breaker)
 

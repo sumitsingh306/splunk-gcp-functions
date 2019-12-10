@@ -38,4 +38,4 @@ Note that the examples have a common retry function/configuration. This section 
 
 To run the examples, you can either run directly from the Cloud Shell in the GCP console (click **>_** to activate Cloud Shell), or by downloading the SDK or Quickstart onto your host/local machine (see here - https://cloud.google.com/sdk/install)
 
-Make sure you have installed git on the host running the example scripts (Cloud Shell already has this installed).
+Make sure you have installed git on the host running the example scripts (GCP's Cloud Shell already has this installed).
