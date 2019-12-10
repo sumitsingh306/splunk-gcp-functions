@@ -11,11 +11,13 @@ The following commands also deletes all objects stored within the buckets. These
 Update the Highlighted items, and save as a shell script (e.g. cleanup.sh). 
 Before running the script make sure you set permissions eg ``chmod +x cleanup.sh`` 
 To run the script, use the example number as the script argument :
-for example 1 use ``./cleanup.sh 1`` 
-example 2a use ``./cleanup.sh 2b``
-both example 2a and 2b use ``./cleanup.sh 2``
-example 3 ``./cleanup.sh 3`` etc. 
-To clean up all use ``./cleanup.sh ALL`` or just ``./cleanup.sh`` 
+For example 1 use ``./cleanup.sh 1`` <br> 
+For example 2a use ``./cleanup.sh 2b`` <br> 
+Both example 2a and 2b use ``./cleanup.sh 2`` <br>
+Example 3 ``./cleanup.sh 3`` etc. <br>
+Using only the number as above will not clear out the Retry. To include retry, also include a second parameter of ``R`` <br> 
+For example ``./cleanup.sh 1 R`` will clear out example 1 and the Retry function, pub sub etc <br>
+To clean up all in one go, use ``./cleanup.sh ALL`` or just ``./cleanup.sh`` 
 
 
 <pre>
@@ -136,11 +138,13 @@ then
 fi
 
 #Common for All
-gcloud functions delete $RETRY_FUNCTON --quiet
-gcloud scheduler jobs delete $RETRY_SCHEDULE --quiet
-gcloud pubsub subscriptions delete $RETRY_SUBSCRIPTION --quiet
-gcloud pubsub topics delete $RETRY_TOPIC --quiet
-gcloud pubsub topics delete $RETRY_TRIGGER_PUBSUB --quiet
-
+if [ $2 == "R" ] || [ $CLEAN -eq 0 ] 
+then
+	gcloud functions delete $RETRY_FUNCTON --quiet
+	gcloud scheduler jobs delete $RETRY_SCHEDULE --quiet
+	gcloud pubsub subscriptions delete $RETRY_SUBSCRIPTION --quiet
+	gcloud pubsub topics delete $RETRY_TOPIC --quiet
+	gcloud pubsub topics delete $RETRY_TRIGGER_PUBSUB --quiet
+fi
 </pre>
 

@@ -72,11 +72,11 @@ cd splunk-gcp-functions/Metrics
 
 #this could be replaced by a static yaml file with the env variables set:
 
-echo -e "HEC_URL: $HEC_URL\\nHEC_TOKEN: $METRICS_TOKEN\\nPROJECTID: $MY_PROJECT\\nTIME_INTERVAL: '5'\\nRETRY_TOPIC: $RETRY_TOPIC\\nMETRIC_INDEX_TYPE: METRICS\\nMETRICS_LIST: '[\"compute.googleapis.com/instance/cpu/utilization\",\"compute.googleapis.com/instance/disk/read_ops_count\",\"compute.googleapis.com/instance/disk/write_bytes_count\",\"compute.googleapis.com/instance/disk/write_ops_count\",\"compute.googleapis.com/instance/network/received_bytes_count\",\"compute.googleapis.com/instance/network/received_packets_count\",\"compute.googleapis.com/instance/network/sent_bytes_count\",\"compute.googleapis.com/instance/network/sent_packets_count\",\"compute.googleapis.com/instance/uptime\"]'" > EnvVars.yaml
+echo -e "HEC_URL: $HEC_URL\\nHEC_TOKEN: $METRICS_TOKEN\\nPROJECTID: $MY_PROJECT\\nTIME_INTERVAL: '5'\\nRETRY_TOPIC: $RETRY_TOPIC\\nMETRIC_INDEX_TYPE: METRICS\\nMETRICS_LIST: '[\"compute.googleapis.com/instance/cpu/utilization\",\"compute.googleapis.com/instance/disk/read_ops_count\",\"compute.googleapis.com/instance/disk/write_bytes_count\",\"compute.googleapis.com/instance/disk/write_ops_count\",\"compute.googleapis.com/instance/network/received_bytes_count\",\"compute.googleapis.com/instance/network/received_packets_count\",\"compute.googleapis.com/instance/network/sent_bytes_count\",\"compute.googleapis.com/instance/network/sent_packets_count\",\"compute.googleapis.com/instance/uptime\"]'" > EnvMVars.yaml
 
 gcloud functions deploy $METRICS_FUNCTION --runtime python37 \
 --trigger-topic=$METRICS_TRIGGER --entry-point=hello_pubsub --allow-unauthenticated \
---env-vars-file EnvVars.yaml
+--env-vars-file EnvMVars.yaml
 
 
 #This is a common section for all examples

@@ -6,6 +6,7 @@
 ### **Pre-requisites**
 HEC set-up on a Splunk instance (load balancer needed for a cluster) 
 (note that if the over-ride token/URL has been set in the function environment variables, the destination for this must match where the source of the failed function originated)
+This function will require a sourcetype to be created on your Splunk instance. An example sourcetype is available in props.conf in this folder.
 This function requires Cloud Assets API to be enabled on the Project you will be requesting the Asset inventory from.
 Set up a PubSub Topic for error/re-try of messages from the functions.  Note the name of the topic -  this will be used for Environment variables for the functions.
 Set up a PubSub Trigger Topic (note that this topic is only going to be used as a trigger, with no events being sent there)

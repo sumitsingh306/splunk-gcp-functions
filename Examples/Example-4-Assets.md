@@ -71,7 +71,7 @@ gcloud scheduler jobs create pubsub $ASSETS_SCHEDULE --schedule "* */6 * * *" --
 
 #create function
 gcloud functions deploy $ASSETS_FUNCTION --runtime python37 \
-  --trigger-topic=$ASSET_TRIGGER_PUBSUB --entry-point=hello_pubsub \
+  --trigger-topic=$ASSETS_TRIGGER_PUBSUB --entry-point=hello_pubsub \
   --allow-unauthenticated \
   --set-env-vars=PROJECTID=$MY_PROJECT,GCS_FILE_PATH=$GCS_FILE_PATH
 
@@ -81,7 +81,7 @@ cd ../GCS
 #create function
 
 gcloud functions deploy $GCS_FUNCTION --runtime python37 \
-  --trigger-bucket=$GCS_BUCKET --entry-point=hello_gcs \
+  --trigger-bucket=$GCS_ASSETS_BUCKET --entry-point=hello_gcs --timeout=120\
   --allow-unauthenticated \
   --set-env-vars=HEC_URL=$HEC_URL,HEC_TOKEN=$ASSETS_TOKEN,PROJECTID=$MY_PROJECT,RETRY_TOPIC=$RETRY_TOPIC
 

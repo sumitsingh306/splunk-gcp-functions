@@ -22,7 +22,7 @@ import argparse
 import pprint
 #import time
 #import json
-#import re
+import re
 #from datetime import datetime
 #from datetime import date
 #import time
