@@ -12,7 +12,7 @@ Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> HEC
 Stackdriver Logging -> Logging Export -> PubSub Topic -> GCP Function -> PubSub Topic (error:RetryTopic)
 Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub Retry Topic)-> HEC
 
-### **Pre-requisites**
+## **Pre-requisites**
 
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
 HEC token/input MUST allow access to all indexes noted in the environment variables if the default token index is being over-ridden
@@ -21,7 +21,7 @@ Enabled Cloud Functions API
 Set up Stackdriver logs; create an export(s) and subscription to a PubSub Topic (see important note below)
 Set up a PubSub Topic for error messages (Note the name of the topic -  this will be used in the Environment variables later)
 
-### **Function Dependencies:**
+## **Function Dependencies:**
 PubSub Function requires the Retry Function. Install and set up the Retry Function first
 
 
@@ -40,7 +40,7 @@ gcloud functions deploy **myPubSubFunction** --runtime python37 --trigger-topic=
 (The command above uses the basic list of environment variables)
 
 
-### **Manual Setup**
+## **Manual Setup**
 1.	Create a new Cloud Function
 2.	Name your function – note the name – see important note below on the log export
 3.	Set the Trigger to be Cloud Pub Sub 
@@ -58,7 +58,7 @@ gcloud functions deploy **myPubSubFunction** --runtime python37 --trigger-topic=
 15.	Click Deploy
 16.	You will need to install the PubSubRetry function if you wish to have a recovery for any events that failed to write to Splunk. See install guide for that function.
 
-#### Function Environment Variables
+## **Function Environment Variables**
 
 <table><tr><td><strong>Variable</strong></td><td><strong>Value</strong></td></tr>
 <tr><td>HEC_URL</td><td>Hostname/IP address and port number for URL for Splunk HEC (Load balancer required for cluster)
@@ -85,7 +85,7 @@ cloudaudit.googleapis.com%2Factivity -> use activity
 
 
 
-## PUB-SUB FUNCTION: IMPORTANT USAGE NOTE
+## **PUB-SUB FUNCTION: IMPORTANT USAGE NOTE**
 
 As the cloud function executes within GCP’s environment, its own logs are collected in Stacktdriver logs. If your Log Export collects logs from Cloud Functions **MAKE SURE YOU ELIMINATE THE FUNCTION NAME FROM THE EXPORT**. Logs for this function cannot be collected by itself! You will need another Function and log subscription to do this (i.e. one function monitoring the other)
 

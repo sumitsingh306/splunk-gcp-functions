@@ -3,7 +3,7 @@
 # Assets Function 
 (0.2)
 
-### **Pre-requisites**
+## **Pre-requisites**
 HEC set-up on a Splunk instance (load balancer needed for a cluster) 
 (note that if the over-ride token/URL has been set in the function environment variables, the destination for this must match where the source of the failed function originated)
 This function will require a sourcetype to be created on your Splunk instance. An example sourcetype is available in props.conf in this folder.
@@ -13,11 +13,11 @@ Set up a PubSub Trigger Topic (note that this topic is only going to be used as 
 Create a Cloud Schedule, triggering the Assets PubSub Topic. Schedule this for how frequent you wish to request an Asset Inventory (e.g. 2hrs, 24hrs)
 
 
-## Function Dependencies:
+## **Function Dependencies:**
 
 This function needs to be used with the GCS Function to read the Asset Inventory into Splunk HEC
 
-## Install with gcloud CLI
+## **Install with gcloud CLI**
 
 (run in bash or the Cloud Shell)
 
@@ -31,7 +31,7 @@ gcloud functions deploy **myAssetFunction** --runtime python37 --trigger-topic=*
 
 *Note that the above example does not identify or send the data to Splunk HEC - the GCS Function should be added to do this*
 
-### **Manual Setup**
+## **Manual Setup**
 
 1.	Create a new Cloud Function
 2.	Name your function
@@ -49,7 +49,7 @@ gcloud functions deploy **myAssetFunction** --runtime python37 --trigger-topic=*
 14.	Add the Environment variables and values described in the table below
 15.	Click Deploy
 
-### **Function Environment Variables**
+## **Function Environment Variables**
 
 <table><tr><td><strong>Variable</strong></td><td><strong>Value</strong></td></tr>
 <tr><td>PROJECTID</td><td>Project ID for where the Retry Topic exists</td></tr>

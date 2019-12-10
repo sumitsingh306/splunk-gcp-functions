@@ -13,7 +13,7 @@ Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from Stackdriver
 Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub Retry Topic)-> HEC
 
 
-### Pre-requisites – 
+## **Pre-requisites – **
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
 HEC token/input MUST allow access to an appropriate index – if the function is creating event metrics, an event index is needed, or if the function is to send to metrics index, the token must be associated with a metrics index.
 Install GCP Add-On https://splunkbase.splunk.com/app/3088/ (uses the same sourcetypes defined in the add-on)
@@ -22,12 +22,12 @@ Set up Stackdriver log subscription for the PubSub error Topic
 Create a Retry Trigger PubSub Topic (note that this topic is only going to be used as a trigger, with no events being sent there)
 Create a Cloud Schedule, triggering the Retry PubSub Topic. Schedule this for how frequent you wish to “flush” out any events that failed to send to Splunk (e.g. 15mins)
 
-## Function Dependencies:
+## **Function Dependencies:**
 
 Metrics Function requires the Retry Function.
 
 
-## Install with gcloud CLI
+## **Install with gcloud CLI**
 
 (run in bash or the Cloud Shell)
 
@@ -40,7 +40,7 @@ gcloud functions deploy **myMetricsFunction** --runtime python37 --trigger-topic
 ** *Update the bold values with your own settings* **
 (The command above uses the basic list of environment variables, using defaults)
 
-## Manual Setup
+## **Manual Setup**
 
 1.	Create a new Cloud Function
 2.	Name your function
@@ -57,7 +57,7 @@ gcloud functions deploy **myMetricsFunction** --runtime python37 --trigger-topic
 13.	Add the Environment variables and values described in the table below
 14.	Click Deploy
 
-## Function Environment Variables
+## **Function Environment Variables**
 
 <table><tr><td><strong>Variable</strong></td><td><strong>Value</strong></td></tr>
 <tr><td>HEC_URL</td><td>Hostname/IP address and port number for URL for Splunk HEC (Load balancer required for cluster)

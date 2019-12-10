@@ -13,7 +13,7 @@ GCS Object -> GCP Function -> PubSub Retry Topic
 Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub Retry Topic)-> HEC
 
 
-### Pre-requisites – 
+## **Pre-requisites – **
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
 HEC token/input MUST allow access to an index and specify a sourcetype for the log type being ingested. Note that all objects in the GCS bucket will be assigned both sourcetype and index per the token.
 Splunk: sourcetype (event break/time) must be set on the receiving indexers. (Note – you will need to use the event breaker regex for this function setup)
@@ -21,11 +21,11 @@ Set up a PubSub Topic for error messages (RETRY_TOPIC). Note the name of the top
 The Batch recovery function must be used for this function (not event), set with EVENT_TYPE as RAW – note also that the PubSub error topic needs to be ONLY for errors from functions with the same sourcetype/index HEC token; 
 e.g. if the logs in bucket A has sourcetype B and the destination is a HEC destination C, and error PubSub Topic of D. The recovery function must use the same destination HEC destination C. If Bucket X also has the same sourcetype B, then it can also use the same PubSub error topic and recovery function. However, if another bucket Y has a sourcetype Z (or needs to go into a different index), it will need a separate error PubSub Topic and Recovery function.
 
-### Function Dependencies:
+## **Function Dependencies:**
 
 PubSub Function requires the Retry Function 
 
-## Install with gcloud CLI
+## **Install with gcloud CLI**
 
 (run in bash or the Cloud Shell)
 
@@ -39,7 +39,7 @@ gcloud functions deploy **myGCSFunction** --runtime python37 --trigger-bucket=**
 
 (The command above uses the basic list of environment variables, with newline breaker)
 
-### Manual Setup
+## **Manual Setup**
 
 1.	Create a new Cloud Function
 2.	Name your function – note the name – see important note below on the log export
@@ -58,7 +58,7 @@ gcloud functions deploy **myGCSFunction** --runtime python37 --trigger-bucket=**
 15.	Click Deploy
 16.	You will need to install the RetryBatch function if you wish to have a recovery for any events that failed to write to Splunk. See install guide for that function.
 
-### Function Environment Variables
+## **Function Environment Variables**
 
 <table><tr><td><strong>Variable</strong></td><td><strong>Value</strong></td></tr>
 <tr><td>HEC_URL</td><td>Hostname/IP address and port number for URL for Splunk HEC (Load balancer required for cluster)
