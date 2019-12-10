@@ -27,6 +27,9 @@ This example creates a Function that is trigged by an object being created in GC
 
 The example creates a function to collect asset information periodically, writing this into a GCS Bucket. The function is triggered by a PubSub Topic (called via Cloud Schedule). The example also builds a GCS Function as per Exanmple 3 to collect this asset data and post to Splunk.
 
+## Example Cleanup 
+
+The Examples can be cleaned up by copying and saving the script in the cleanup page. Update the variables (bucket names) highlighted in the script. Note that if you have changed the variables in any way, remember to change these for the cleanup, otherwise you may have services or components remaining after runing the script. **Note that this is a destructive process that cannot be undone - take care not to delete buckets or topics that contain data you wish to keep.**
 
 #### Log export Sinks:
 
