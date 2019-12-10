@@ -5,17 +5,17 @@ The script below cleans up (destructively) the examples created.
 ## Warning
 **THIS CANNOT BE UNDONE!!!** 
 Make sure you don't want to keep any remaining data!!!
-The following commands also deletes all objects stored within the buckets. These objects cannot be recovered. If you want to avoid accidentally deleting objects, use the replace gsutil rm with the gsutil rb command below, which only deletes a bucket if the bucket is empty.
+The following commands also deletes all objects stored within the buckets. These objects cannot be recovered. If you want to avoid accidentally deleting objects, use the replace ``gsutil rm`` with the ``gsutil rb`` command below, which only deletes a bucket if the bucket is empty.
 
 
 Update the Highlighted items, and save as a shell script (e.g. cleanup.sh). 
-Before running the script make sure you set permissions eg <pre>chmod +x cleanup.sh</pre> 
+Before running the script make sure you set permissions eg ``chmod +x cleanup.sh`` 
 To run the script, use the example number as the script argument :
-for example 1 use <pre>./cleanup.sh 1 </pre> 
-example 2a use <pre>./cleanup.sh 2b</pre> 
-both example 2a and 2b use <pre>./cleanup.sh 2</pre> 
-example 3 <pre>./cleanup.sh 3</pre> etc. 
-To clean up all use <pre>./cleanup.sh ALL</pre> or just <pre>./cleanup.sh</pre> 
+for example 1 use ``./cleanup.sh 1`` 
+example 2a use ``./cleanup.sh 2b``
+both example 2a and 2b use ``./cleanup.sh 2``
+example 3 ``./cleanup.sh 3`` etc. 
+To clean up all use ``./cleanup.sh ALL`` or just ``./cleanup.sh`` 
 
 
 <pre>
