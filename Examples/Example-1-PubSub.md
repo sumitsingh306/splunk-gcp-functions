@@ -61,7 +61,8 @@ gcloud pubsub topics create $PUBSUB_TOPIC
 
 #create log-sinks...
 
-#!!always include this if you want to log cloud functions - eliminates the race condition of logging own logs!!
+#MAKE NOTE OF THIS SINK - IT ENSURES THAT THERE IS NO RECORDING OF THE FUNCTIONS OWN LOGS!!!
+
 gcloud logging sinks create $PUBSUB_SINK1 \
   pubsub.googleapis.com/projects/$MY_PROJECT/topics/$PUBSUB_TOPIC \
   --log-filter="resource.labels.function_name!=$PUBSUB_FUNCTION"
@@ -70,9 +71,19 @@ gcloud logging sinks describe $PUBSUB_SINK1 > /tmp/tmp.txt
 LOG_SINK_SERVICE_ACCOUNT="$(cat /tmp/tmp.txt |grep -Eo "serviceAccount:\S\d*-\d*\@\D+")"
 rm /tmp/tmp.txt
 
+#the last command will return the LOG_SINK_SERVICE_ACCOUNT 
+gcloud pubsub topics add-iam-policy-binding $PUBSUB_TOPIC \
+  --member $LOG_SINK_SERVICE_ACCOUNT  --role roles/pubsub.publisher
+
+# THIS SINK WILL GET ALL LOGS OTHER THAN CLOUD FUNCTIONS - BEWARE IT MAY HAVE HIGH VOLUME!!!
+
 gcloud logging sinks create $PUBSUB_SINK2 \
   pubsub.googleapis.com/projects/$MY_PROJECT/topics/$PUBSUB_TOPIC \
-  --log-filter="protoPayload.serviceName="container.googleapis.com"
+  --log-filter="resource.type!=cloud_function"
+
+gcloud logging sinks describe $PUBSUB_SINK2 > /tmp/tmp.txt
+LOG_SINK_SERVICE_ACCOUNT="$(cat /tmp/tmp.txt |grep -Eo "serviceAccount:\S\d*-\d*\@\D+")"
+rm /tmp/tmp.txt
 
 #the last command will return the LOG_SINK_SERVICE_ACCOUNT 
 gcloud pubsub topics add-iam-policy-binding $PUBSUB_TOPIC \
