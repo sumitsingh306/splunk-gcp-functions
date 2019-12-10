@@ -11,9 +11,27 @@ This function requires Cloud Assets API to be enabled on the Project you will be
 Set up a PubSub Topic for error/re-try of messages from the functions.  Note the name of the topic -  this will be used for Environment variables for the functions.
 Set up a PubSub Trigger Topic (note that this topic is only going to be used as a trigger, with no events being sent there)
 Create a Cloud Schedule, triggering the Assets PubSub Topic. Schedule this for how frequent you wish to request an Asset Inventory (e.g. 2hrs, 24hrs)
+
+
+## Function Dependencies:
+
 This function needs to be used with the GCS Function to read the Asset Inventory into Splunk HEC
 
-### **Setup**
+## Install with gcloud CLI
+
+(run in bash or the Cloud Shell)
+
+git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
+
+cd splunk-gcp-functions/Asset
+
+gcloud functions deploy **myAssetFunction** --runtime python37 --trigger-topic=**ASSETS_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --timeout=120 --set-env-vars=PROJECTID='**Project-id**',GCS_FILE_PATH='**Path-and-prefix-to-GCS-Bucket**'
+
+** *Update the bold values with your own settings* **
+
+*Note that the above example does not identify or send the data to Splunk HEC - the GCS Function should be added to do this*
+
+### **Manual Setup**
 
 1.	Create a new Cloud Function
 2.	Name your function
@@ -41,17 +59,5 @@ Note that unixtime will be added to the filename on writing from the function</t
 </table>
 
 
-## Install with gcloud CLI
 
-(run in bash or the Cloud Shell)
-
-git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
-
-cd splunk-gcp-functions/Asset
-
-gcloud functions deploy **myAssetFunction** --runtime python37 --trigger-topic=**ASSETS_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --timeout=120 --set-env-vars=PROJECTID='**Project-id**',GCS_FILE_PATH='**Path-and-prefix-to-GCS-Bucket**'
-
-** *Update the bold values with your own settings* **
-
-*Note that the above example does not identify or send the data to Splunk HEC - the GCS Function should be added to do this*
 

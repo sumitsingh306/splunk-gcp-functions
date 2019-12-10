@@ -22,7 +22,22 @@ Set up Stackdriver logs; create an export(s) and subscription to a PubSub Topic 
 Set up a PubSub Topic for error messages (Note the name of the topic -  this will be used in the Environment variables later)
 
 ### **Function Dependencies:**
-PubSub Function requires the RetryEvent Function. Install and set up the RetryEvent Function first
+PubSub Function requires the Retry Function. Install and set up the Retry Function first
+
+
+## Install with gcloud CLI
+
+(run in bash or the Cloud Shell)
+
+git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
+
+cd splunk-gcp-functions/PubSubFunction
+
+gcloud functions deploy **myPubSubFunction** --runtime python37 --trigger-topic=**TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',RETRY_TOPIC='**Retry_Topic**'
+
+** *Update the bold values with your own settings* **
+
+(The command above uses the basic list of environment variables)
 
 
 ### **Manual Setup**
@@ -68,19 +83,7 @@ cloudaudit.googleapis.com%2Factivity -> use activity
 </table>
 
 
-## Install with gcloud CLI
 
-(run in bash or the Cloud Shell)
-
-git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
-
-cd splunk-gcp-functions/PubSubFunction
-
-gcloud functions deploy **myPubSubFunction** --runtime python37 --trigger-topic=**TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',RETRY_TOPIC='**Retry_Topic**'
-
-** *Update the bold values with your own settings* **
-
-(The command above uses the basic list of environment variables)
 
 ## PUB-SUB FUNCTION: IMPORTANT USAGE NOTE
 

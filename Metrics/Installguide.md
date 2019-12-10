@@ -24,7 +24,21 @@ Create a Cloud Schedule, triggering the Retry PubSub Topic. Schedule this for ho
 
 ## Function Dependencies:
 
-Metrics Function requires the RetryBatch Function 
+Metrics Function requires the Retry Function.
+
+
+## Install with gcloud CLI
+
+(run in bash or the Cloud Shell)
+
+git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
+
+cd splunk-gcp-functions/Metrics
+
+gcloud functions deploy **myMetricsFunction** --runtime python37 --trigger-topic=**METRICS_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --env-vars-file **EnvironmentVariablesFile.yaml**
+
+** *Update the bold values with your own settings* **
+(The command above uses the basic list of environment variables, using defaults)
 
 ## Manual Setup
 
@@ -70,17 +84,6 @@ Defaults to EVENT
 
 If a CLI is used for this function, the configuration for the environment variables needs to be put into a configuration yaml file due to the list of metrics. The example below assumes that the variables have been set in a file, whereas the examples include a script to create that file.
 
-## Install with gcloud CLI
 
-(run in bash or the Cloud Shell)
-
-git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
-
-cd splunk-gcp-functions/Metrics
-
-gcloud functions deploy **myMetricsFunction** --runtime python37 --trigger-topic=**METRICS_TRIGGER_TOPIC** --entry-point=hello_pubsub --allow-unauthenticated --env-vars-file **EnvironmentVariablesFile.yaml**
-
-** *Update the bold values with your own settings* **
-(The command above uses the basic list of environment variables, using defaults)
 
 

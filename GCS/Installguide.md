@@ -23,9 +23,23 @@ e.g. if the logs in bucket A has sourcetype B and the destination is a HEC desti
 
 ### Function Dependencies:
 
-PubSub Function requires the RetryBatch Function 
+PubSub Function requires the Retry Function 
 
-### Setup
+## Install with gcloud CLI
+
+(run in bash or the Cloud Shell)
+
+git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
+
+cd splunk-gcp-functions/GCS
+
+gcloud functions deploy **myGCSFunction** --runtime python37 --trigger-bucket=**TRIGGER_BUCKET** --entry-point=hello_gcs --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',RETRY_TOPIC='**Retry_Topic**'
+
+** *Update the bold values with your own settings* **
+
+(The command above uses the basic list of environment variables, with newline breaker)
+
+### Manual Setup
 
 1.	Create a new Cloud Function
 2.	Name your function – note the name – see important note below on the log export
@@ -60,18 +74,6 @@ Defaults to FALSE</td></tr>
 </table>
 
 
-## Install with gcloud CLI
 
-(run in bash or the Cloud Shell)
-
-git clone https://github.com/pauld-splunk/splunk-gcp-functions.git
-
-cd splunk-gcp-functions/GCS
-
-gcloud functions deploy **myGCSFunction** --runtime python37 --trigger-bucket=**TRIGGER_BUCKET** --entry-point=hello_gcs --allow-unauthenticated --set-env-vars=HEC_URL='**HOSTNAME_OR_IP_FOR_HEC**',HEC_TOKEN='**0000-0000-0000-0000**',PROJECTID='**Project-id**',RETRY_TOPIC='**Retry_Topic**'
-
-** *Update the bold values with your own settings* **
-
-(The command above uses the basic list of environment variables, with newline breaker)
 
 
