@@ -138,7 +138,15 @@ then
 fi
 
 #Common for All
-if [ $2 == 'R' ] || [ $CLEAN -eq 0 ] 
+if [ $# -eq 2 ]
+then
+  	if [ $2 == 'R' ]
+  	then
+  		CLEAN=0
+  	fi
+fi
+#Common for All
+if [ $CLEAN -eq 0 ]
 then
 	gcloud functions delete $RETRY_FUNCTON --quiet
 	gcloud scheduler jobs delete $RETRY_SCHEDULE --quiet
@@ -146,5 +154,7 @@ then
 	gcloud pubsub topics delete $RETRY_TOPIC --quiet
 	gcloud pubsub topics delete $RETRY_TRIGGER_PUBSUB --quiet
 fi
+
+
 </pre>
 
