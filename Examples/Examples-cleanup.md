@@ -18,7 +18,7 @@ example 3 <pre>./cleanup.sh 3</pre> etc.
 To clean up all use <pre>./cleanup.sh ALL</pre> or just <pre>./cleanup.sh</pre> 
 
 
-``
+<pre>
 #run this script from where you originally ran the original examples from
 #use the same environment variable values as for the example builds
 
@@ -142,5 +142,5 @@ gcloud pubsub subscriptions delete $RETRY_SUBSCRIPTION --quiet
 gcloud pubsub topics delete $RETRY_TOPIC --quiet
 gcloud pubsub topics delete $RETRY_TRIGGER_PUBSUB --quiet
 
-``
+</pre>
 
