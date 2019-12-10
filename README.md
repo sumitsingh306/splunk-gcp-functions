@@ -37,3 +37,5 @@ The Functions library here has a set of Examples for each of the Functions. The 
 Note that the examples have a common retry function/configuration. This section will only need to be run once. In a similar way, the two metrics examples have a common trigger that can be reused for both examples.
 
 To run the examples, you can either run directly from the Cloud Shell in the GCP console (click **>_** to activate Cloud Shell), or by downloading the SDK or Quickstart onto your host/local machine (see here - https://cloud.google.com/sdk/install)
+
+Make sure you have installed git on the host running the example scripts (Cloud Shell already has this installed).
