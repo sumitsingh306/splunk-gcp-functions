@@ -10,3 +10,5 @@ The assets function will push an event type of google:gcp:assets by default. Thi
 Any messages that failed to be sent to HEC are sent into a PubSub topic for retry. A recovery function will attempt to resend periodically.
 
 This function requires Cloud Assets API to be enabled on the Project you will be requesting the Asset inventory from.
+
+![Assets Inventory Function overview](../images/Assets.png)
