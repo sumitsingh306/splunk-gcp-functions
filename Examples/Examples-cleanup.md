@@ -1,6 +1,15 @@
 # Example Cleanup
 
-The script below cleans up (destructively) the examples created. It assumes that all of the examples have been installed. However, if you wish to only remove partially, then the comments in-line should help identify which section to use
+The script below cleans up (destructively) the examples created. 
+
+Update the Highlighted items, and save as a shell script (e.g. cleanup.sh). 
+Before running the script make sure you set permissions eg <pre>chmod +x cleanup.sh</pre>) 
+To run the script, use the example number as the script arguemnt :
+for example 1 use <pre>./cleanup.sh 1 </pre> 
+example 2a use <pre>./cleanup.sh 2b</pre> 
+both example 2a and 2b use <pre>./cleanup.sh 2</pre> 
+example 3 <pre>./cleanup.sh 3</pre> etc. 
+To clean up all use <pre>./cleanup.sh ALL</pre> or just <pre>./cleanup.sh</pre> 
 
 ** Warning:
 THIS CANNOT BE UNDONE!!! 
@@ -55,31 +64,77 @@ RETRY_SCHEDULE=ExampleRetrySchedule
 #remove git project clone (all examples)
 rm -r splunk-gcp-functions
 
+
+case $1 in
+	1) 
+		CLEAN=1
+		;;
+	2a)
+    	CLEAN=2
+    	;;
+    2b)
+    	CLEAN=3
+    	;;
+    2)
+    	CLEAN=4
+    	;;
+    3)
+    	CLEAN=5
+    	;;
+    4)
+    	CLEAN=6
+    	;;
+    ALL)
+    	CLEAN=0
+    	;;
+    *)
+    	CLEAN=0
+    	;;
+esac
+
 #Example 1
-gcloud functions delete $PUBSUB_FUNCTION --quiet
-gcloud logging sinks delete $PUBSUB_SINK1 --quiet
-gcloud logging sinks delete $PUBSUB_SINK2 --quiet
-gcloud pubsub topics delete $PUBSUB_TOPIC --quiet
+if [$CLEAN=1] || [ $CLEAN = 0 ]
+then
+	gcloud functions delete $PUBSUB_FUNCTION --quiet
+	gcloud logging sinks delete $PUBSUB_SINK1 --quiet
+	gcloud logging sinks delete $PUBSUB_SINK2 --quiet
+	gcloud pubsub topics delete $PUBSUB_TOPIC --quiet
+fi
 
 #Example 2a
-gcloud functions delete $METRICS_FUNCTIONa --quiet
+if [ $CLEAN -eq 2 ] || [ $CLEAN -eq 4 ] || [ $CLEAN -eq 0 ]
+then
+	gcloud functions delete $METRICS_FUNCTIONa --quiet
+fi
 
 #Example 2b
-gcloud functions delete $METRICS_FUNCTIONb --quiet
+if [ $CLEAN -eq 3 ] || [ $CLEAN -eq 4 ] || [ $CLEAN -eq 0 ]
+then
+	gcloud functions delete $METRICS_FUNCTIONb --quiet
+fi
 
 #Examples 2a/2b
-gcloud pubsub topics delete $METRICS_TRIGGER --quiet
-gcloud scheduler jobs delete $METRICS_SCHEDULE --quiet
+if [ $CLEAN -eq 2 ] || [ $CLEAN -eq 3 ] || [ $CLEAN -eq 4 ] || [ $CLEAN -eq 0 ]
+then
+	gcloud pubsub topics delete $METRICS_TRIGGER --quiet
+	gcloud scheduler jobs delete $METRICS_SCHEDULE --quiet
+fi
 
 #Example 3
-gcloud functions delete $GCS_FUNCTION --quiet
-gsutil rm -r gs://$GCS_BUCKET
+if [ $CLEAN -eq 5 ] || [ $CLEAN -eq 0 ]
+then
+	gcloud functions delete $GCS_FUNCTION --quiet
+	gsutil rm -r gs://$GCS_BUCKET
+fi
 
 #Example 4
-gcloud functions delete $ASSETS_FUNCTION --quiet
-gcloud pubsub topics delete $ASSETS_TRIGGER_PUBSUB --quiet
-gcloud scheduler jobs delete $ASSETS_SCHEDULE --quiet
-gsutil rm -r gs://$GCS_ASSETS_BUCKET 
+if [ $CLEAN -eq 6 ] || [ $CLEAN -eq 0 ]
+then
+	gcloud functions delete $ASSETS_FUNCTION --quiet
+	gcloud pubsub topics delete $ASSETS_TRIGGER_PUBSUB --quiet
+	gcloud scheduler jobs delete $ASSETS_SCHEDULE --quiet
+	gsutil rm -r gs://$GCS_ASSETS_BUCKET 
+fi
 
 #Common for All
 gcloud functions delete $RETRY_FUNCTON --quiet
@@ -87,7 +142,6 @@ gcloud scheduler jobs delete $RETRY_SCHEDULE --quiet
 gcloud pubsub subscriptions delete $RETRY_SUBSCRIPTION --quiet
 gcloud pubsub topics delete $RETRY_TOPIC --quiet
 gcloud pubsub topics delete $RETRY_TRIGGER_PUBSUB --quiet
-
 
 
 
