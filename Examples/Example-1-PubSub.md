@@ -68,6 +68,7 @@ gcloud logging sinks create $PUBSUB_SINK1 \
 
 gcloud logging sinks describe $PUBSUB_SINK1 > /tmp/tmp.txt
 LOG_SINK_SERVICE_ACCOUNT="$(cat /tmp/tmp.txt |grep -Eo "serviceAccount:\S\d*-\d*\@\D+")"
+rm /tmp/tmp.txt
 
 gcloud logging sinks create $PUBSUB_SINK2 \
   pubsub.googleapis.com/projects/$MY_PROJECT/topics/$PUBSUB_TOPIC \
