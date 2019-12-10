@@ -30,3 +30,10 @@ Once in the GCS Bucket, the GCS function above can be used to read in the conten
 
 This function periodically requests any failed events that were sent to a PubSub Topic, and re-tries sending to HEC. If there is a subsequent failure to sending to Splunk, the function will not acknowledge the pull from PubSub, and therefore will be re-tried at a later attempt.
 
+## Getting started
+
+The library here has a set of Examples for each of the Functions. The examples contains scripts that can be executed to create a sample function and its components such as PubSub topics. This is a great place to start to understand how these functions work, and how to set them up in your environment.
+
+Note that the examples have a common retry function/configuration. This section will only need to be run once. In a similar way, the two metrics examples have a common trigger that can be reused for both examples.
+
+To run the examples, you can either run directly from the Active Cloud Shell in the GCP console, or by downloading the SDK or Quickstart onto your host/local machine (see here - https://cloud.google.com/sdk/install)
