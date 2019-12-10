@@ -138,7 +138,7 @@ then
 fi
 
 #Common for All
-if [ $2 = "R" ] || [ $CLEAN -eq 0 ] 
+if [ $2 == 'R' ] || [ $CLEAN -eq 0 ] 
 then
 	gcloud functions delete $RETRY_FUNCTON --quiet
 	gcloud scheduler jobs delete $RETRY_SCHEDULE --quiet
