@@ -18,7 +18,7 @@ HEC set-up on a Splunk instance (load balancer needed for a cluster)
 HEC token/input MUST allow access to an appropriate index – if the function is creating event metrics, an event index is needed, or if the function is to send to metrics index, the token must be associated with a metrics index.
 Install GCP Add-On https://splunkbase.splunk.com/app/3088/ (uses the same sourcetypes defined in the add-on)
 This function requires Cloud Functions API to be enabled.
-This function requires Cloud Scheduler API to be enabled on the Project. (https://cloud.google.com/scheduler/docs/setup and click on the link on the bottom <ENABLE THE CLOUD SCHEDULER API>)
+This function requires Cloud Scheduler API to be enabled on the Project. (https://cloud.google.com/scheduler/docs/setup and click on the link on the bottom <ENABLE THE CLOUD SCHEDULER API>). Also make sure Cloud Scheduler has an assigned default region.
 Set up a PubSub Topic for error messages from an event based functions (PubSub Function, Metrics Events Function) OR if this will be generating metrics, a PubSub for metrics Note the name of the topic -  this will be used for Environment variables for the functions.
 Set up Stackdriver log subscription for the PubSub error Topic
 Create a Retry Trigger PubSub Topic (note that this topic is only going to be used as a trigger, with no events being sent there)

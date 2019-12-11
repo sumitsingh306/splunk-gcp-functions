@@ -62,7 +62,7 @@ RETRY_SCHEDULE=ExampleRetrySchedule
 
 gcloud pubsub topics create $METRICS_TRIGGER
 
-gcloud scheduler jobs create pubsub $METRICS_SCHEDULE --schedule "*/5 * * * *" --topic $METRICS_TRIGGER --message-body "RunMetric"
+gcloud scheduler jobs create pubsub $METRICS_SCHEDULE --schedule "*/5 * * * *" --topic $METRICS_TRIGGER --message-body "RunMetric" --project $MY_PROJECT
 
 # ..End of common Metric trigger section
 
@@ -96,7 +96,7 @@ gcloud functions deploy $RETRY_FUNCTON --runtime python37 \
 
 gcloud pubsub topics create $RETRY_TRIGGER_PUBSUB
 
-gcloud scheduler jobs create pubsub $RETRY_SCHEDULE --schedule "*/10 * * * *" --topic $RETRY_TRIGGER_PUBSUB --message-body "Retry"
+gcloud scheduler jobs create pubsub $RETRY_SCHEDULE --schedule "*/10 * * * *" --topic $RETRY_TRIGGER_PUBSUB --message-body "Retry" --project $MY_PROJECT
 
 
 </pre>

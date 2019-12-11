@@ -66,7 +66,7 @@ cd splunk-gcp-functions/Assets
 #create triggers
 gcloud pubsub topics create $ASSETS_TRIGGER_PUBSUB
 
-gcloud scheduler jobs create pubsub $ASSETS_SCHEDULE --schedule "0 */6 * * *" --topic $ASSETS_TRIGGER_PUBSUB --message-body "Assets"
+gcloud scheduler jobs create pubsub $ASSETS_SCHEDULE --schedule "0 */6 * * *" --topic $ASSETS_TRIGGER_PUBSUB --message-body "Assets" --project $MY_PROJECT
 
 
 #create function
@@ -102,6 +102,6 @@ gcloud functions deploy $RETRY_FUNCTON --runtime python37 \
 
 gcloud pubsub topics create $RETRY_TRIGGER_PUBSUB
 
-gcloud scheduler jobs create pubsub $RETRY_SCHEDULE --schedule "*/10 * * * *" --topic $RETRY_TRIGGER_PUBSUB --message-body "Retry"
+gcloud scheduler jobs create pubsub $RETRY_SCHEDULE --schedule "*/10 * * * *" --topic $RETRY_TRIGGER_PUBSUB --message-body "Retry" --project $MY_PROJECT
 
 </pre>
