@@ -1,4 +1,4 @@
-pre code,  
+pre code,  /* stackoverflow */
 .md:not(.use-csslab) pre code
  {
   white-space: pre-wrap;
