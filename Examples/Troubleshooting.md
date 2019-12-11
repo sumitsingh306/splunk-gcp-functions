@@ -1,10 +1,10 @@
 # Troubleshooting / Common Issues
 
-** When running the scripts first time, there is an error * ERROR: (gcloud.scheduler.jobs.create.pubsub) Could not determine the location for the project. Please try again. * **
+**When running the scripts first time, there is an error *ERROR: (gcloud.scheduler.jobs.create.pubsub) Could not determine the location for the project. Please try again.***
 
 This error will occur if your Cloud Scheduler hasn't been run/enabled before. Go to the console and create a new schedule - it will ask for a region you wish to run the Project in. Once this is done, clean up the example and re-try the example scripts.
 
-** I'm not getting any data into Splunk **
+**I'm not getting any data into Splunk**
 
 1) Check that the URL and HEC token are valid. 
 	Try running this curl command (with the relevant url/token) to see if you can send into Splunk HEC
@@ -14,26 +14,26 @@ This error will occur if your Cloud Scheduler hasn't been run/enabled before. Go
 2) Check that your HEC_URL environment variable is correct. You don't need /services/collector for example. Just use  IPaddress:Port or Hostname:Port. Note that for Splunk Cloud customers, there is a specific URL for HEC - this is usually in the format of http-inputs-mysplunkcloud.splunkcloud.com. (There is no need for a port number). 
 3) Do not use the ACK on the HEC settings
 
-** My PubSub Function is hitting maximum executions limit - what's gone wrong? **
+**My PubSub Function is hitting maximum executions limit - what's gone wrong?**
 
 This is usually caused by the PubSub Function ingesting its own logs. This will cause an infinate loop / race. To stop this, edit the Log Export / Sink that the PubSub topic is subscribing to and make sure the filter excludes the PubSub Function from its logs. An easy way to resolve this is by using the filter resource.labels.function_name!=ExamplePubSubFunction (changing the name to your function name). 
 
 
-** My metrics has a gap between groups of metrics in Splunk **
+**My metrics has a gap between groups of metrics in Splunk**
 
 This is caused by the Metrics Schedule and the Interval setting (TIME_INTERVAL) for the Metrics functions not being the same. For example, the schedule is 10mins whereas the metrics interval is 5. The TIME_INTERVAL setting should match that of the Schedule period.
 
 
-** Some of my events in Splunk are not complete / truncated **
+**Some of my events in Splunk are not complete / truncated**
 
 This usually occurs due to the size of the event coming from Stackdriver - if they are very large, they will be truncated if you have only the default settings for TRUNCATE on the sourcetype (set to 10000). Some of the container logs for example can be 16K. You should update your sourcetype to add TRUNCATE=0.
 
-** My events from GCS are not being split properly in Splunk **
+**My events from GCS are not being split properly in Splunk**
 
 This is usually down to your sourcetype for the HEC input not being set properly, or you have multiple sourcetypes going into the same GCS bucket. The Function currently only supports one sourcetype per GCS Bucket. Make sure you have the correct sourcetype on the HEC input setting.
 The other potential issue is that you have not set the LINE_BREAKER regex environment variable in the function settings. By default, it will break events up from the file by newline only. If you have multi-line events, make sure you set the LINE_BREAKER to have the same regex values as the Splunk sourcetype's settings in props.conf (you may need to consult with your Splunk admin). It is important also to make sure to set BEFORE=TRUE if the break is done before the LINE_BREAKER regex.
 
-** My events are not evenly distributed across my indexer cluster **
+**My events are not evenly distributed across my indexer cluster**
 
 This is typically down to 2 reasons:
 1) Your Load Balancer has been set to have sticky sessions. Disable this if possible
