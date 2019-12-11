@@ -17,6 +17,8 @@ Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub Retr
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
 HEC token/input MUST allow access to an appropriate index – if the function is creating event metrics, an event index is needed, or if the function is to send to metrics index, the token must be associated with a metrics index.
 Install GCP Add-On https://splunkbase.splunk.com/app/3088/ (uses the same sourcetypes defined in the add-on)
+This function requires Cloud Functions API to be enabled.
+This function requires Cloud Scheduler API to be enabled on the Project. (https://cloud.google.com/scheduler/docs/setup and click on the link on the bottom <ENABLE THE CLOUD SCHEDULER API>)
 Set up a PubSub Topic for error messages from an event based functions (PubSub Function, Metrics Events Function) OR if this will be generating metrics, a PubSub for metrics Note the name of the topic -  this will be used for Environment variables for the functions.
 Set up Stackdriver log subscription for the PubSub error Topic
 Create a Retry Trigger PubSub Topic (note that this topic is only going to be used as a trigger, with no events being sent there)
@@ -84,6 +86,61 @@ Defaults to EVENT
 
 If a CLI is used for this function, the configuration for the environment variables needs to be put into a configuration yaml file due to the list of metrics. The example below assumes that the variables have been set in a file, whereas the examples include a script to create that file.
 
+
+## Example Metrics lists
+
+There are a significant number of metrics available from GCP. The example (Metrics 2a and 2b) will set up a simple list of compute metrics, but the Function environment variables can be edited to include many more. Here are some samples that can be used for the METRICS_LIST variable:
+
+### Compute:
+
+<pre>
+["compute.googleapis.com/instance/cpu/utilization","compute.googleapis.com/instance/disk/read_ops_count","compute.googleapis.com/instance/disk/read_bytes_count","compute.googleapis.com/instance/disk/write_bytes_count","compute.googleapis.com/instance/disk/write_ops_count",
+"compute.googleapis.com/instance/network/received_bytes_count","compute.googleapis.com/instance/network/received_packets_count",
+"compute.googleapis.com/instance/network/sent_bytes_count","compute.googleapis.com/instance/network/sent_packets_count",
+"compute.googleapis.com/instance/uptime","compute.googleapis.com/firewall/dropped_bytes_count","compute.googleapis.com/firewall/dropped_packets_count"]
+</pre>
+
+### Cloud Functions:
+
+<pre>
+["cloudfunctions.googleapis.com/function/active_instances","cloudfunctions.googleapis.com/function/execution_count","cloudfunctions.googleapis.com/function/execution_times","cloudfunctions.googleapis.com/function/network_egress","container.googleapis.com/container/cpu/utilization","container.googleapis.com/container/disk/bytes_used"]
+</pre>
+
+### Containers / Kubernetes
+
+<pre>
+["container.googleapis.com/container/cpu/utilization","container.googleapis.com/container/disk/bytes_used","container.googleapis.com/container/accelerator/duty_cycle","container.googleapis.com/container/accelerator/memory_total","container.googleapis.com/container/accelerator/memory_used","container.googleapis.com/container/accelerator/request","container.googleapis.com/container/cpu/reserved_cores",
+"container.googleapis.com/container/cpu/usage_time","container.googleapis.com/container/disk/bytes_total","container.googleapis.com/container/disk/bytes_used","container.googleapis.com/container/disk/inodes_free","container.googleapis.com/container/disk/inodes_total","container.googleapis.com/container/memory/bytes_total","container.googleapis.com/container/memory/bytes_used",
+"container.googleapis.com/container/uptime"]
+</pre>
+
+### Storage
+<pre>
+[storage.googleapis.com/api/request_count",storage.googleapis.com/network/received_bytes_count",storage.googleapis.com/network/sent_bytes_count",storage.googleapis.com/storage/object_count"]
+</pre>
+
+### Logging
+
+<pre>
+["logging.googleapis.com/billing/bytes_ingested","logging.googleapis.com/billing/monthly_bytes_ingested","logging.googleapis.com/byte_count",
+"logging.googleapis.com/exports/byte_count","logging.googleapis.com/exports/error_count","logging.googleapis.com/exports/log_entry_count",
+"logging.googleapis.com/log_entry_count","logging.googleapis.com/logs_based_metrics_error_count","logging.googleapis.com/metric_throttled",
+"logging.googleapis.com/time_series_count"]
+</pre>
+
+### Monitoring
+
+<pre>
+["monitoring.googleapis.com/billing/bytes_ingested","monitoring.googleapis.com/stats/num_time_series","monitoring.googleapis.com/uptime_check/content_mismatch","monitoring.googleapis.com/uptime_check/error_code","monitoring.googleapis.com/uptime_check/http_status","monitoring.googleapis.com/uptime_check/request_latency"]
+</pre>
+
+### PubSub
+
+<pre>
+["pubsub.googleapis.com/snapshot/backlog_bytes","pubsub.googleapis.com/snapshot/backlog_bytes_by_region","pubsub.googleapis.com/snapshot/config_updates_count","pubsub.googleapis.com/snapshot/num_messages","pubsub.googleapis.com/snapshot/num_messages_by_region",
+"pubsub.googleapis.com/snapshot/oldest_message_age","pubsub.googleapis.com/snapshot/oldest_message_age_by_region","pubsub.googleapis.com/subscription/ack_message_count","pubsub.googleapis.com/subscription/backlog_bytes","pubsub.googleapis.com/subscription/byte_cost",
+"pubsub.googleapis.com/subscription/config_updates_count","pubsub.googleapis.com/subscription/mod_ack_deadline_message_count","pubsub.googleapis.com/subscription/mod_ack_deadline_message_operation_count","pubsub.googleapis.com/subscription/mod_ack_deadline_request_count","pubsub.googleapis.com/subscription/num_outstanding_messages","pubsub.googleapis.com/subscription/num_undelivered_messages","pubsub.googleapis.com/subscription/oldest_unacked_message_age_by_region","pubsub.googleapis.com/subscription/pull_ack_message_operation_count","pubsub.googleapis.com/subscription/pull_ack_request_count","pubsub.googleapis.com/subscription/pull_message_operation_count","pubsub.googleapis.com/subscription/pull_message_operation_count","pubsub.googleapis.com/subscription/push_request_count","pubsub.googleapis.com/subscription/push_request_latencies","pubsub.googleapis.com/subscription/sent_message_count","pubsub.googleapis.com/topic/message_sizes","pubsub.googleapis.com/topic/num_unacked_messages_by_region","pubsub.googleapis.com/topic/oldest_unacked_message_age_by_region"]
+</pre>
 
 
 

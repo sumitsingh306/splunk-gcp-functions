@@ -17,6 +17,7 @@ Cloud Schedule -> PubSub Topic (Trigger) -> GCP Function(->Pull from PubSub Retr
 HEC set-up on a Splunk instance (load balancer needed for a cluster)
 HEC token/input MUST allow access to an index and specify a sourcetype for the log type being ingested. Note that all objects in the GCS bucket will be assigned both sourcetype and index per the token.
 Splunk: sourcetype (event break/time) must be set on the receiving indexers. (Note – you will need to use the event breaker regex for this function setup)
+This function requires Cloud Functions API to be enabled.
 Set up a PubSub Topic for error messages (RETRY_TOPIC). Note the name of the topic -  this will be used in the Environment variables later. 
 The Batch recovery function must be used for this function (not event), set with EVENT_TYPE as RAW – note also that the PubSub error topic needs to be ONLY for errors from functions with the same sourcetype/index HEC token; 
 e.g. if the logs in bucket A has sourcetype B and the destination is a HEC destination C, and error PubSub Topic of D. The recovery function must use the same destination HEC destination C. If Bucket X also has the same sourcetype B, then it can also use the same PubSub error topic and recovery function. However, if another bucket Y has a sourcetype Z (or needs to go into a different index), it will need a separate error PubSub Topic and Recovery function.
