@@ -1,3 +1,9 @@
+pre code,  
+.md:not(.use-csslab) pre code
+ {
+  white-space: pre-wrap;
+}
+
 # GCP Cloud Functions – Installation / Setup Guide
 
 ## Metrics Function 
