@@ -94,10 +94,7 @@ There are a significant number of metrics available from GCP. The example (Metri
 ### Compute:
 
 <pre>
-["compute.googleapis.com/instance/cpu/utilization","compute.googleapis.com/instance/disk/read_ops_count","compute.googleapis.com/instance/disk/read_bytes_count","compute.googleapis.com/instance/disk/write_bytes_count","compute.googleapis.com/instance/disk/write_ops_count",
-"compute.googleapis.com/instance/network/received_bytes_count","compute.googleapis.com/instance/network/received_packets_count",
-"compute.googleapis.com/instance/network/sent_bytes_count","compute.googleapis.com/instance/network/sent_packets_count",
-"compute.googleapis.com/instance/uptime","compute.googleapis.com/firewall/dropped_bytes_count","compute.googleapis.com/firewall/dropped_packets_count"]
+["compute.googleapis.com/instance/cpu/utilization","compute.googleapis.com/instance/disk/read_ops_count","compute.googleapis.com/instance/disk/read_bytes_count","compute.googleapis.com/instance/disk/write_bytes_count","compute.googleapis.com/instance/disk/write_ops_count","compute.googleapis.com/instance/network/received_bytes_count","compute.googleapis.com/instance/network/received_packets_count","compute.googleapis.com/instance/network/sent_bytes_count","compute.googleapis.com/instance/network/sent_packets_count","compute.googleapis.com/instance/uptime","compute.googleapis.com/firewall/dropped_bytes_count","compute.googleapis.com/firewall/dropped_packets_count"]
 </pre>
 
 ### Cloud Functions:
@@ -109,9 +106,7 @@ There are a significant number of metrics available from GCP. The example (Metri
 ### Containers / Kubernetes
 
 <pre>
-["container.googleapis.com/container/cpu/utilization","container.googleapis.com/container/disk/bytes_used","container.googleapis.com/container/accelerator/duty_cycle","container.googleapis.com/container/accelerator/memory_total","container.googleapis.com/container/accelerator/memory_used","container.googleapis.com/container/accelerator/request","container.googleapis.com/container/cpu/reserved_cores",
-"container.googleapis.com/container/cpu/usage_time","container.googleapis.com/container/disk/bytes_total","container.googleapis.com/container/disk/bytes_used","container.googleapis.com/container/disk/inodes_free","container.googleapis.com/container/disk/inodes_total","container.googleapis.com/container/memory/bytes_total","container.googleapis.com/container/memory/bytes_used",
-"container.googleapis.com/container/uptime"]
+["container.googleapis.com/container/cpu/utilization","container.googleapis.com/container/disk/bytes_used","container.googleapis.com/container/accelerator/duty_cycle","container.googleapis.com/container/accelerator/memory_total","container.googleapis.com/container/accelerator/memory_used","container.googleapis.com/container/accelerator/request","container.googleapis.com/container/cpu/reserved_cores","container.googleapis.com/container/cpu/usage_time","container.googleapis.com/container/disk/bytes_total","container.googleapis.com/container/disk/bytes_used","container.googleapis.com/container/disk/inodes_free","container.googleapis.com/container/disk/inodes_total","container.googleapis.com/container/memory/bytes_total","container.googleapis.com/container/memory/bytes_used","container.googleapis.com/container/uptime"]
 </pre>
 
 ### Storage
@@ -122,10 +117,7 @@ There are a significant number of metrics available from GCP. The example (Metri
 ### Logging
 
 <pre>
-["logging.googleapis.com/billing/bytes_ingested","logging.googleapis.com/billing/monthly_bytes_ingested","logging.googleapis.com/byte_count",
-"logging.googleapis.com/exports/byte_count","logging.googleapis.com/exports/error_count","logging.googleapis.com/exports/log_entry_count",
-"logging.googleapis.com/log_entry_count","logging.googleapis.com/logs_based_metrics_error_count","logging.googleapis.com/metric_throttled",
-"logging.googleapis.com/time_series_count"]
+["logging.googleapis.com/billing/bytes_ingested","logging.googleapis.com/billing/monthly_bytes_ingested","logging.googleapis.com/byte_count","logging.googleapis.com/exports/byte_count","logging.googleapis.com/exports/error_count","logging.googleapis.com/exports/log_entry_count","logging.googleapis.com/log_entry_count","logging.googleapis.com/logs_based_metrics_error_count","logging.googleapis.com/metric_throttled","logging.googleapis.com/time_series_count"]
 </pre>
 
 ### Monitoring
@@ -137,9 +129,7 @@ There are a significant number of metrics available from GCP. The example (Metri
 ### PubSub
 
 <pre>
-["pubsub.googleapis.com/snapshot/backlog_bytes","pubsub.googleapis.com/snapshot/backlog_bytes_by_region","pubsub.googleapis.com/snapshot/config_updates_count","pubsub.googleapis.com/snapshot/num_messages","pubsub.googleapis.com/snapshot/num_messages_by_region",
-"pubsub.googleapis.com/snapshot/oldest_message_age","pubsub.googleapis.com/snapshot/oldest_message_age_by_region","pubsub.googleapis.com/subscription/ack_message_count","pubsub.googleapis.com/subscription/backlog_bytes","pubsub.googleapis.com/subscription/byte_cost",
-"pubsub.googleapis.com/subscription/config_updates_count","pubsub.googleapis.com/subscription/mod_ack_deadline_message_count","pubsub.googleapis.com/subscription/mod_ack_deadline_message_operation_count","pubsub.googleapis.com/subscription/mod_ack_deadline_request_count","pubsub.googleapis.com/subscription/num_outstanding_messages","pubsub.googleapis.com/subscription/num_undelivered_messages","pubsub.googleapis.com/subscription/oldest_unacked_message_age_by_region","pubsub.googleapis.com/subscription/pull_ack_message_operation_count","pubsub.googleapis.com/subscription/pull_ack_request_count","pubsub.googleapis.com/subscription/pull_message_operation_count","pubsub.googleapis.com/subscription/pull_message_operation_count","pubsub.googleapis.com/subscription/push_request_count","pubsub.googleapis.com/subscription/push_request_latencies","pubsub.googleapis.com/subscription/sent_message_count","pubsub.googleapis.com/topic/message_sizes","pubsub.googleapis.com/topic/num_unacked_messages_by_region","pubsub.googleapis.com/topic/oldest_unacked_message_age_by_region"]
+["pubsub.googleapis.com/snapshot/backlog_bytes","pubsub.googleapis.com/snapshot/backlog_bytes_by_region","pubsub.googleapis.com/snapshot/config_updates_count","pubsub.googleapis.com/snapshot/num_messages","pubsub.googleapis.com/snapshot/num_messages_by_region","pubsub.googleapis.com/snapshot/oldest_message_age","pubsub.googleapis.com/snapshot/oldest_message_age_by_region","pubsub.googleapis.com/subscription/ack_message_count","pubsub.googleapis.com/subscription/backlog_bytes","pubsub.googleapis.com/subscription/byte_cost","pubsub.googleapis.com/subscription/config_updates_count","pubsub.googleapis.com/subscription/mod_ack_deadline_message_count","pubsub.googleapis.com/subscription/mod_ack_deadline_message_operation_count","pubsub.googleapis.com/subscription/mod_ack_deadline_request_count","pubsub.googleapis.com/subscription/num_outstanding_messages","pubsub.googleapis.com/subscription/num_undelivered_messages","pubsub.googleapis.com/subscription/oldest_unacked_message_age_by_region","pubsub.googleapis.com/subscription/pull_ack_message_operation_count","pubsub.googleapis.com/subscription/pull_ack_request_count","pubsub.googleapis.com/subscription/pull_message_operation_count","pubsub.googleapis.com/subscription/pull_message_operation_count","pubsub.googleapis.com/subscription/push_request_count","pubsub.googleapis.com/subscription/push_request_latencies","pubsub.googleapis.com/subscription/sent_message_count","pubsub.googleapis.com/topic/message_sizes","pubsub.googleapis.com/topic/num_unacked_messages_by_region","pubsub.googleapis.com/topic/oldest_unacked_message_age_by_region"]
 </pre>
 
 
