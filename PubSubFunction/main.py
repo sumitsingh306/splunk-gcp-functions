@@ -1,4 +1,4 @@
-#GCP - PubSubFunction v0.1.8
+#GCP - PubSubFunction v0.1.9
 
 '''MIT License
 Copyright (c) 2019 Splunk
@@ -130,7 +130,7 @@ def splunkHec(logdata,source):
   
   try:
   
-    r = s.post(url, headers=authHeader, data=logdata, verify=False, timeout=2)
+    r = s.post(url, headers=authHeader, data=logdata.encode("utf-8"), verify=False, timeout=2)
     r.raise_for_status()
   except requests.exceptions.HTTPError as errh:
     print ("Http Error:",errh)

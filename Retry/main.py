@@ -1,4 +1,4 @@
-#RetryAll0.1.5.py
+#RetryAll0.1.6.py
 '''MIT License
 Copyright (c) 2019 Splunk
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
@@ -106,7 +106,7 @@ def splunkHec(url,token,logdata):
   authHeader = {'Authorization': 'Splunk '+ token}
 
   try:
-    r = s.post(url, headers=authHeader, data=logdata, verify=False, timeout=2)
+    r = s.post(url, headers=authHeader, data=logdata.encode("utf-8"), verify=False, timeout=2)
     r.raise_for_status()
   except requests.exceptions.HTTPError as errh:
     print ("Http Error:",errh)
