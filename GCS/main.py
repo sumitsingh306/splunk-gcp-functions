@@ -1,4 +1,4 @@
-#GCSfunction v0.1.2
+#GCSfunction v0.1.3
 
 '''MIT License
 Copyright (c) 2019 Splunk
@@ -101,7 +101,7 @@ def splunkHec(logdata, objectname):
   authHeader = {'Authorization': 'Splunk '+ token}
  
   try:
-    r = s.post(url, headers=authHeader, data=logdata, verify=False, timeout=1)
+    r = s.post(url, headers=authHeader, data=logdata.encode("utf-8"), verify=False, timeout=1)
     r.raise_for_status()
   except requests.exceptions.HTTPError as errh:
     print ("Http Error:",errh)

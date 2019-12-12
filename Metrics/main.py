@@ -1,4 +1,4 @@
-#GCPMetricsFunction v0.5.9
+#GCPMetricsFunction v0.5.10
 #All-in-one metrics function
 
 '''MIT License
@@ -350,7 +350,7 @@ def splunkHec(logdata):
   authHeader = {'Authorization': 'Splunk '+ token}
   
   try:
-    r = s.post(url, headers=authHeader, data=logdata, verify=False, timeout=2)
+    r = s.post(url, headers=authHeader, data=logdata.encode("utf-8"), verify=False, timeout=2)
     r.raise_for_status()
   except requests.exceptions.HTTPError as errh:
     print ("Http Error:",errh)
