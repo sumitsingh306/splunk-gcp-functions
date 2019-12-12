@@ -16,13 +16,18 @@ This error will occur if your Cloud Scheduler hasn't been run/enabled before. Go
 
 **My PubSub Function is hitting maximum executions limit - what's gone wrong?**
 
-This is usually caused by the PubSub Function ingesting its own logs. This will cause an infinate loop / race. To stop this, edit the Log Export / Sink that the PubSub topic is subscribing to and make sure the filter excludes the PubSub Function from its logs. An easy way to resolve this is by using the filter resource.labels.function_name!=ExamplePubSubFunction (changing the name to your function name). 
+This is likely to be caused by the PubSub Function ingesting its own logs. This will cause an infinate loop / race. To stop this, edit the Log Export / Sink that the PubSub topic is subscribing to and make sure the filter excludes the PubSub Function from its logs. An easy way to resolve this is by using the filter resource.labels.function_name!=ExamplePubSubFunction (changing the name to your function name). 
+Another possibilty is that your log export filter is too broad, and the number of of events is very large. Consider your filter design, and create more than one pubsub function if necessary to read from different topics/log exports to reduce the load on one function.
 
 
 **My metrics has a gap between groups of metrics in Splunk**
 
-This is caused by the Metrics Schedule and the Interval setting (TIME_INTERVAL) for the Metrics functions not being the same. For example, the schedule is 10mins whereas the metrics interval is 5. The TIME_INTERVAL setting should match that of the Schedule period.
+This is normally caused by the Metrics Schedule and the Interval setting (TIME_INTERVAL) for the Metrics functions not being the same. For example, the schedule is 10mins whereas the metrics interval is 5. The TIME_INTERVAL setting should match that of the Schedule period.
+If the settings are the same, then examine the function log and search for errors - if you see function timeouts or memory limit exceeded, this indicates that you need to increase the memory allocated to the function and function timeout. Alternatively, reduce the time interval, and the number of metrics for the function (for example, split the list over more than one function).
 
+**I have no metrics arriving in Splunk**
+If you want to sent your metrics to a metrics index, make sure that your HEC input specifies a metrics index.
+Also note the previous issue, where increasing the memory allocation and timeout for your function may resolve the issue (and/or reduce TIME_INTERVAL).
 
 **Some of my events in Splunk are not complete / truncated**
 

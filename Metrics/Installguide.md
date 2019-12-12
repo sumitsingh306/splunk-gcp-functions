@@ -71,7 +71,7 @@ Ideally this should be the same as the token used for the function that is using
 <tr><td>METRICS_LIST</td><td>A list of metrics for the function to pull. Enclose the comma separated list with square brackets. Use full names for the metrics. For example:
 ["compute.googleapis.com/instance/cpu/utilization","compute.googleapis.com/instance/disk/read_ops_count"]
 </td></tr>
-<tr><td>TIME_INTERVAL</td><td>Time interval for the function to retrieve metrics for (in minutes). This is retrospective – i.e a setting of 5 will retrieve metrics from the last 5 minutes.</td></tr>
+<tr><td>TIME_INTERVAL</td><td>Time interval for the function to retrieve metrics for (in minutes). This is retrospective – i.e a setting of 5 will retrieve metrics from the last 5 minutes. Running 5, 10 or 15 minute intervals is a recommended setting; larger values may cause function timeouts, in which case you will need to adjust the function timeout setting</td></tr>
 <tr><td>HOST</td><td>Hostname you wish to give the event
 Defaults to GCPMetricsFunction
 </td></tr>
@@ -83,6 +83,10 @@ Defaults to EVENT
 </td></tr>
 <tr><td>RETRY_TOPIC</td><td>Name of Topic to send event/metric to on any failure scenario for the function</td></tr>
 </table>
+
+<strong>Note that if you have a long metrics list for one single Function, you may need to increase the memory allocated to the function. This may also require the function timeout to be increased, which also may be needed if the TIME_INTERVAL is long. 
+</strong>
+
 
 If a CLI is used for this function, the configuration for the environment variables needs to be put into a configuration yaml file due to the list of metrics. The example below assumes that the variables have been set in a file, whereas the examples include a script to create that file.
 
