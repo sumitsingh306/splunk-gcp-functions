@@ -26,6 +26,7 @@ This is normally caused by the Metrics Schedule and the Interval setting (TIME_I
 If the settings are the same, then examine the function log and search for errors - if you see function timeouts or memory limit exceeded, this indicates that you need to increase the memory allocated to the function and function timeout. Alternatively, reduce the time interval, and the number of metrics for the function (for example, split the list over more than one function).
 
 **I have no metrics arriving in Splunk**
+
 If you want to sent your metrics to a metrics index, make sure that your HEC input specifies a metrics index.
 Also note the previous issue, where increasing the memory allocation and timeout for your function may resolve the issue (and/or reduce TIME_INTERVAL).
 

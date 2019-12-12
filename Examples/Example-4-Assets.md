@@ -56,6 +56,11 @@ RETRY_SCHEDULE=ExampleRetrySchedule
 
 #this section is specific for this example only; 
 
+#make sure that the function has access to view the assets.
+gcloud projects add-iam-policy-binding $MY_PROJECT \
+  --member serviceAccount:$MY_PROJECT@gappspot.gserviceaccount.com \
+  --role roles/cloudasset.viewer
+
 gsutil mb gs://$GCS_ASSETS_BUCKET
 
 #the clone command only needs to be done once for all of the examples
