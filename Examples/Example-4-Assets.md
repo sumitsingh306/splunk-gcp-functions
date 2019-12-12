@@ -103,7 +103,7 @@ cd ../Retry
 
 gcloud functions deploy $RETRY_FUNCTON --runtime python37 \
  --trigger-topic=$RETRY_TRIGGER_PUBSUB --entry-point=hello_pubsub --allow-unauthenticated --timeout=120\
- --set-env-vars=HEC_URL=PROJECTID=$MY_PROJECT,SUBSCRIPTION=$RETRY_SUBSCRIPTION
+ --set-env-vars=PROJECTID=$MY_PROJECT,SUBSCRIPTION=$RETRY_SUBSCRIPTION
 
 gcloud pubsub topics create $RETRY_TRIGGER_PUBSUB
 
